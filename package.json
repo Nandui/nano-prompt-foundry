@@ -1,0 +1,11 @@
+{
+  "name": "nano-banana-prompter",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node --check app.js && node --check server.js",
+    "lint": "node --check app.js && node --check server.js",
+    "start": "node server.js"
+  }
+}

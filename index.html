@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nano Prompt Foundry</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="reference-rail" aria-label="Reference image inputs">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">N</div>
+          <div>
+            <h1>Nano Prompt Foundry</h1>
+            <p>Image-to-JSON studio</p>
+          </div>
+        </div>
+
+        <div class="provider-card">
+          <div id="providerStatus" class="provider-status">Vision provider: checking...</div>
+          <button id="analyzeAll" class="analysis-all-button" type="button">Analyze all missing</button>
+        </div>
+
+        <div id="dropzones" class="dropzone-list"></div>
+      </section>
+
+      <section class="builder-panel" aria-label="Prompt builder">
+        <div class="topbar">
+          <div>
+            <p class="section-label">Prompt Compiler</p>
+            <h2>Build a realism-safe image brief</h2>
+          </div>
+          <div class="model-control">
+            <label for="model">Model</label>
+            <select id="model">
+              <option value="gemini-3-pro-image">Nano Banana Pro</option>
+              <option value="gemini-3.1-flash-image">Nano Banana 2</option>
+            </select>
+          </div>
+        </div>
+
+        <section class="preset-library" aria-label="Option libraries">
+          <div class="library-head">
+            <div>
+              <p class="section-label">Option Libraries</p>
+              <h3>Instagram-style photo presets</h3>
+            </div>
+            <button id="clearPresets" class="text-button" type="button">Clear picks</button>
+          </div>
+          <div class="library-tabs" role="tablist" aria-label="Preset categories">
+            <button class="library-tab active" type="button" data-library="picture">Types</button>
+            <button class="library-tab" type="button" data-library="scene">Scenes</button>
+            <button class="library-tab" type="button" data-library="camera">Cameras</button>
+            <button class="library-tab" type="button" data-library="pose">Poses</button>
+            <button class="library-tab" type="button" data-library="lighting">Light</button>
+            <button class="library-tab" type="button" data-library="realism">Realism</button>
+          </div>
+          <div id="presetGrid" class="preset-grid"></div>
+        </section>
+
+        <div class="form-grid">
+          <label class="field span-2">
+            <span>Subject identity lock</span>
+            <textarea id="identity" rows="3">Preserve the face reference faithfully: facial structure, age range, skin texture, expression character, hairline, and natural asymmetries. Keep the person recognizable without stylizing or beautifying them.</textarea>
+          </label>
+
+          <label class="field">
+            <span>Body, pose, and gesture</span>
+            <textarea id="body" rows="4">Use the body reference for height impression, proportions, posture, pose, gesture, and silhouette. Keep anatomy physically plausible.</textarea>
+          </label>
+
+          <label class="field">
+            <span>Outfit and material detail</span>
+            <textarea id="outfit" rows="4">Recreate the outfit reference with accurate garment layers, fit, seams, fabric weight, color, texture, accessories, and footwear.</textarea>
+          </label>
+
+          <label class="field span-2">
+            <span>Scene environment only</span>
+            <textarea id="scene" rows="3">Use the scene reference only for the actual place: environment type, architecture, layout, lighting direction, color temperature, weather, depth, surface materials, reflections, and atmosphere. Do not copy people, pose, outfit, action, identity, text, logos, or foreground subject matter from the scene image.</textarea>
+          </label>
+
+          <label class="field">
+            <span>Camera and composition</span>
+            <textarea id="camera" rows="4">Photorealistic editorial portrait, eye-level camera, 50mm lens, natural perspective, shallow but believable depth of field, subject framed from mid-thigh upward unless the body reference suggests a stronger full-body pose.</textarea>
+          </label>
+
+          <label class="field">
+            <span>Lighting and color grade</span>
+            <textarea id="lighting" rows="4">Match the scene lighting direction, exposure, color temperature, shadow softness, bounce light, highlights, and ambient occlusion. Use restrained cinematic color grading with natural skin tones.</textarea>
+          </label>
+
+          <label class="field">
+            <span>Realism requirements</span>
+            <textarea id="realism" rows="5">Instagram-grade photorealism: real phone or camera capture, natural skin pores and micro-texture, visible fabric texture, real shadows, mild sensor noise, subtle compression, natural sharpening, accurate hands, no airbrushed skin, no waxy skin, no plastic clothing, no AI smoothing.</textarea>
+          </label>
+
+          <label class="field">
+            <span>Negative constraints</span>
+            <textarea id="negative" rows="5">Avoid identity drift, extra fingers, distorted hands, mismatched lighting, floating subject, pasted edges, airbrushed skin, poreless porcelain texture, plastic skin, waxy highlights, face reshaping, over-smoothed body texture, fantasy styling, generic model face, warped logos, unreadable text, watermarks, captions, UI elements.</textarea>
+          </label>
+
+          <div class="field controls-panel">
+            <span>Output format</span>
+            <div class="segmented" role="group" aria-label="Aspect ratio">
+              <button class="segment active" data-ratio="4:5">4:5</button>
+              <button class="segment" data-ratio="3:2">3:2</button>
+              <button class="segment" data-ratio="16:9">16:9</button>
+              <button class="segment" data-ratio="9:16">9:16</button>
+            </div>
+            <label class="inline-control">
+              <span>Resolution</span>
+              <select id="resolution">
+                <option value="2K">2K</option>
+                <option value="4K">4K</option>
+                <option value="1K">1K</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="guide-card">
+            <span>Realism guide lock</span>
+            <ul>
+              <li>Each image has an explicit role.</li>
+              <li>Prompt locks authentic Instagram capture quality.</li>
+              <li>Skin texture, body texture, and fabric detail stay natural.</li>
+              <li>Camera, lighting, aspect ratio, and anti-AI constraints are stated.</li>
+              <li>No airbrushed, plastic, waxy, or poreless beauty-filter output.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <aside class="json-panel" aria-label="Compiled JSON">
+        <div class="json-header">
+          <div>
+            <p class="section-label">Compiled Export</p>
+            <h2>Copy-ready JSON</h2>
+          </div>
+          <button id="copyJson" class="icon-button" title="Copy JSON" aria-label="Copy JSON">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 8h11v13H8z"></path>
+              <path d="M5 16H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v1"></path>
+            </svg>
+          </button>
+        </div>
+        <pre id="jsonOutput" tabindex="0"></pre>
+        <pre id="jsonHighlighted" class="json-highlighted" tabindex="0" aria-label="Highlighted JSON preview"></pre>
+        <div id="copyStatus" class="copy-status" aria-live="polite">Ready</div>
+      </aside>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+node_modules/
+.npm-cache/
+.ms-playwright/
+assets/qa-*.png
+assets/render-*.png
+assets/concept-*.png

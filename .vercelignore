@@ -1,0 +1,5 @@
+local-server.js
+dist/
+node_modules/
+.npm-cache/
+.ms-playwright/

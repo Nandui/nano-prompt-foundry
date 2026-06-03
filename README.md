@@ -35,7 +35,7 @@ AI_PROVIDER=apiyi
 APIYI_VISION_MODEL=gemini-2.5-pro
 ```
 
-Vercel serves `index.html`, `styles.css`, and `app.js` as static files. The vision endpoints run as serverless functions at `/api/health` and `/api/analyze-image`.
+The build copies `index.html`, `styles.css`, and `app.js` into `public/`, which Vercel serves as the static site. The vision endpoints run as serverless functions at `/api/health` and `/api/analyze-image`.
 
 ## Build Check
 

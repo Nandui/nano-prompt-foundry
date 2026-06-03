@@ -2,6 +2,7 @@ node_modules/
 .npm-cache/
 .ms-playwright/
 dist/
+public/
 assets/qa-*.png
 assets/render-*.png
 assets/concept-*.png

@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node --check app.js && node --check local-server.js && node --check lib/vision.js && node --check api/health.js && node --check api/analyze-image.js && node scripts/build-static.mjs",
+    "build": "node --check app.js && node --check lib/vision.js && node --check api/health.js && node --check api/analyze-image.js && node scripts/build-static.mjs",
     "local": "node local-server.js",
     "lint": "npm run build",
     "preview": "node local-server.js"

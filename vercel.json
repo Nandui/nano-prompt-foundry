@@ -1,0 +1,13 @@
+{
+  "buildCommand": "npm run build",
+  "rewrites": [
+    {
+      "source": "/api/health",
+      "destination": "/api/health.js"
+    },
+    {
+      "source": "/api/analyze-image",
+      "destination": "/api/analyze-image.js"
+    }
+  ]
+}

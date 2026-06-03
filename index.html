@@ -69,46 +69,55 @@
         <div class="form-grid">
           <label class="field span-2">
             <span>Subject identity lock</span>
+            <p class="field-hint">Preserve facial geometry, skin texture, age range, hairline, and natural asymmetries</p>
             <textarea id="identity" rows="3">Preserve the face reference faithfully: facial structure, age range, skin texture, expression character, hairline, and natural asymmetries. Keep the person recognizable without stylizing or beautifying them.</textarea>
           </label>
 
           <label class="field">
-            <span>Body, pose, and gesture</span>
+            <span>Body, pose &amp; gesture</span>
+            <p class="field-hint">Height impression, proportions, posture, silhouette, and gesture</p>
             <textarea id="body" rows="4">Use the body reference for height impression, proportions, posture, pose, gesture, and silhouette. Keep anatomy physically plausible.</textarea>
           </label>
 
           <label class="field">
-            <span>Outfit and material detail</span>
+            <span>Outfit &amp; material detail</span>
+            <p class="field-hint">Garment layers, fabric weight, fit, seams, color, texture, and accessories</p>
             <textarea id="outfit" rows="4">Recreate the outfit reference with accurate garment layers, fit, seams, fabric weight, color, texture, accessories, and footwear.</textarea>
           </label>
 
           <label class="field span-2">
             <span>Scene environment only</span>
+            <p class="field-hint">Environment, architecture, lighting, depth, weather — no people or poses from this image</p>
             <textarea id="scene" rows="3">Use the scene reference only for the actual place: environment type, architecture, layout, lighting direction, color temperature, weather, depth, surface materials, reflections, and atmosphere. Do not copy people, pose, outfit, action, identity, text, logos, or foreground subject matter from the scene image.</textarea>
           </label>
 
           <label class="field">
-            <span>Camera and composition</span>
+            <span>Camera &amp; composition</span>
+            <p class="field-hint">Focal length, framing, perspective, and depth of field approach</p>
             <textarea id="camera" rows="4">Photorealistic editorial portrait, eye-level camera, 50mm lens, natural perspective, shallow but believable depth of field, subject framed from mid-thigh upward unless the body reference suggests a stronger full-body pose.</textarea>
           </label>
 
           <label class="field">
-            <span>Lighting and color grade</span>
+            <span>Lighting &amp; color grade</span>
+            <p class="field-hint">Light direction, quality, color temperature, and cinematic grade</p>
             <textarea id="lighting" rows="4">Match the scene lighting direction, exposure, color temperature, shadow softness, bounce light, highlights, and ambient occlusion. Use restrained cinematic color grading with natural skin tones.</textarea>
           </label>
 
           <label class="field">
             <span>Realism requirements</span>
+            <p class="field-hint">Anti-AI skin texture, sensor noise, fabric detail, and authentic hands</p>
             <textarea id="realism" rows="5">Instagram-grade photorealism: real phone or camera capture, natural skin pores and micro-texture, visible fabric texture, real shadows, mild sensor noise, subtle compression, natural sharpening, accurate hands, no airbrushed skin, no waxy skin, no plastic clothing, no AI smoothing.</textarea>
           </label>
 
           <label class="field">
             <span>Negative constraints</span>
+            <p class="field-hint">Artifacts, shortcuts, and elements to explicitly exclude from generation</p>
             <textarea id="negative" rows="5">Avoid identity drift, extra fingers, distorted hands, mismatched lighting, floating subject, pasted edges, airbrushed skin, poreless porcelain texture, plastic skin, waxy highlights, face reshaping, over-smoothed body texture, fantasy styling, generic model face, warped logos, unreadable text, watermarks, captions, UI elements.</textarea>
           </label>
 
           <div class="field controls-panel">
             <span>Output format</span>
+            <p class="field-hint">Aspect ratio and resolution for the generated image</p>
             <div class="segmented" role="group" aria-label="Aspect ratio">
               <button class="segment active" data-ratio="4:5">4:5</button>
               <button class="segment" data-ratio="3:2">3:2</button>
@@ -128,8 +137,8 @@
           <div class="guide-card">
             <span>Realism guide lock</span>
             <ul>
-              <li>Each image has an explicit role.</li>
-              <li>Prompt locks authentic Instagram capture quality.</li>
+              <li>Each reference image has an explicit role with transfer rules.</li>
+              <li>Prompt enforces authentic Instagram capture quality, not AI art.</li>
               <li>Skin texture, body texture, and fabric detail stay natural.</li>
               <li>Camera, lighting, aspect ratio, and anti-AI constraints are stated.</li>
               <li>No airbrushed, plastic, waxy, or poreless beauty-filter output.</li>
@@ -139,7 +148,7 @@
           <div class="schema-controls span-2">
             <div class="schema-head">
               <span>Generation Schema</span>
-              <p>Gemini 3 Pro structured parameters</p>
+              <p>Structured Gemini 3 Pro parameters — tune quality, camera, scene, and style</p>
             </div>
             <div class="schema-tabs" role="tablist" aria-label="Schema parameter sections">
               <button class="schema-tab active" type="button" data-stab="meta">Meta</button>
@@ -157,6 +166,7 @@
               <div class="sc-row">
                 <label class="sc-field">
                   <span>Quality mode</span>
+                  <p class="sc-field-hint">Rendering style and artistic medium preset</p>
                   <select id="sc_quality">
                     <option value="ultra_photorealistic" selected>Ultra Photorealistic</option>
                     <option value="standard">Standard</option>
@@ -171,6 +181,7 @@
                 </label>
                 <label class="sc-field">
                   <span>Safety filter</span>
+                  <p class="sc-field-hint">Content sensitivity filter level</p>
                   <select id="sc_safety">
                     <option value="block_none">Block None</option>
                     <option value="block_few">Block Few</option>
@@ -182,14 +193,17 @@
               <div class="sc-row sc-row-3">
                 <label class="sc-field">
                   <span>Steps <em>10–100</em></span>
+                  <p class="sc-field-hint">Higher = finer detail, slower</p>
                   <input type="number" id="sc_steps" min="10" max="100" value="40" />
                 </label>
                 <label class="sc-field">
                   <span>Guidance <em>1–20</em></span>
+                  <p class="sc-field-hint">How strictly to follow the prompt</p>
                   <input type="number" id="sc_guidance" min="1" max="20" step="0.5" value="7.5" />
                 </label>
                 <label class="sc-field">
                   <span>Seed <em>optional</em></span>
+                  <p class="sc-field-hint">Fix value to reproduce results</p>
                   <input type="number" id="sc_seed" placeholder="random" />
                 </label>
               </div>
@@ -200,6 +214,7 @@
               <div class="sc-row">
                 <label class="sc-field">
                   <span>Time of day</span>
+                  <p class="sc-field-hint">Sets sky color, shadow length, and ambient mood</p>
                   <select id="sc_time">
                     <option value="">— auto —</option>
                     <option value="golden_hour">Golden Hour</option>
@@ -214,6 +229,7 @@
                 </label>
                 <label class="sc-field">
                   <span>Weather</span>
+                  <p class="sc-field-hint">Adds atmospheric conditions to the scene</p>
                   <select id="sc_weather">
                     <option value="">— auto —</option>
                     <option value="clear_skies">Clear Skies</option>
@@ -231,6 +247,7 @@
               <div class="sc-row">
                 <label class="sc-field">
                   <span>Lighting type</span>
+                  <p class="sc-field-hint">Primary light source character and quality</p>
                   <select id="sc_light_type">
                     <option value="">— auto —</option>
                     <option value="natural_sunlight">Natural Sunlight</option>
@@ -247,6 +264,7 @@
                 </label>
                 <label class="sc-field">
                   <span>Light direction</span>
+                  <p class="sc-field-hint">Key light position relative to subject</p>
                   <select id="sc_light_dir">
                     <option value="">— auto —</option>
                     <option value="front_lit">Front Lit</option>
@@ -266,6 +284,7 @@
               <div class="sc-row">
                 <label class="sc-field">
                   <span>Camera body</span>
+                  <p class="sc-field-hint">Determines color science, sensor noise, and format feel</p>
                   <select id="sc_camera_model">
                     <option value="">— auto —</option>
                     <option value="iPhone 15 Pro">iPhone 15 Pro</option>
@@ -280,6 +299,7 @@
                 </label>
                 <label class="sc-field">
                   <span>Lens</span>
+                  <p class="sc-field-hint">Focal length controls perspective compression</p>
                   <select id="sc_lens">
                     <option value="">— auto —</option>
                     <option value="16mm">16mm — Ultra Wide</option>
@@ -298,6 +318,7 @@
               <div class="sc-row">
                 <label class="sc-field">
                   <span>Aperture</span>
+                  <p class="sc-field-hint">f/1.2 = max blur · f/16 = everything sharp</p>
                   <select id="sc_aperture">
                     <option value="">— auto —</option>
                     <option value="f/1.2">f/1.2 — Max bokeh</option>
@@ -313,6 +334,7 @@
                 </label>
                 <label class="sc-field">
                   <span>Shutter speed</span>
+                  <p class="sc-field-hint">1/8000 freezes motion · bulb = light trails</p>
                   <select id="sc_shutter">
                     <option value="">— auto —</option>
                     <option value="1/8000">1/8000 — Freeze</option>
@@ -332,6 +354,7 @@
               <div class="sc-row">
                 <label class="sc-field">
                   <span>ISO</span>
+                  <p class="sc-field-hint">Higher = more grain and shadow noise</p>
                   <select id="sc_iso">
                     <option value="">— auto —</option>
                     <option value="100">ISO 100 — Clean</option>
@@ -346,6 +369,7 @@
                 </label>
                 <label class="sc-field">
                   <span>Film stock</span>
+                  <p class="sc-field-hint">Applies analog film color emulation and grain</p>
                   <select id="sc_film">
                     <option value="">— none —</option>
                     <option value="Kodak Portra 400">Kodak Portra 400</option>
@@ -368,6 +392,7 @@
               <div class="sc-row">
                 <label class="sc-field">
                   <span>Framing</span>
+                  <p class="sc-field-hint">How much of the subject fills the frame</p>
                   <select id="sc_framing">
                     <option value="">— auto —</option>
                     <option value="extreme_close_up">Extreme Close-Up</option>
@@ -382,6 +407,7 @@
                 </label>
                 <label class="sc-field">
                   <span>Camera angle</span>
+                  <p class="sc-field-hint">Vertical camera position relative to subject</p>
                   <select id="sc_angle">
                     <option value="">— auto —</option>
                     <option value="eye_level">Eye Level</option>
@@ -399,6 +425,7 @@
               <div class="sc-row">
                 <label class="sc-field">
                   <span>Focus point</span>
+                  <p class="sc-field-hint">The element rendered at sharpest focus</p>
                   <select id="sc_focus">
                     <option value="">— auto —</option>
                     <option value="face">Face</option>
@@ -417,6 +444,7 @@
               <div class="sc-row">
                 <label class="sc-field">
                   <span>Expression</span>
+                  <p class="sc-field-hint">Subject's facial expression and emotional tone</p>
                   <select id="sc_expression">
                     <option value="neutral">Neutral</option>
                     <option value="smiling">Smiling</option>
@@ -434,6 +462,7 @@
                 </label>
                 <label class="sc-field">
                   <span>Gender</span>
+                  <p class="sc-field-hint">Adjusts pronouns and presentation cues</p>
                   <select id="sc_gender">
                     <option value="">— unspecified —</option>
                     <option value="male">Male</option>
@@ -446,6 +475,7 @@
               <div class="sc-row">
                 <label class="sc-field">
                   <span>Age</span>
+                  <p class="sc-field-hint">Approximate age descriptor for face generation</p>
                   <input type="text" id="sc_age" placeholder="e.g. 25 years old, elderly" />
                 </label>
               </div>
@@ -570,6 +600,7 @@
               <div class="sc-row">
                 <label class="sc-field">
                   <span>Medium</span>
+                  <p class="sc-field-hint">Artistic rendering technique or material</p>
                   <select id="sc_medium">
                     <option value="">— auto —</option>
                     <option value="photography">Photography</option>
@@ -587,6 +618,7 @@
                 </label>
                 <label class="sc-field">
                   <span>Artist reference</span>
+                  <p class="sc-field-hint">Applies the visual vocabulary of this artist</p>
                   <input type="text" id="sc_artist" placeholder="e.g. Greg Rutkowski" />
                 </label>
               </div>
@@ -600,16 +632,18 @@
             <div class="schema-panel" data-spanel="text_p">
               <label class="sc-toggle">
                 <input type="checkbox" id="sc_text_enabled" />
-                <strong>Add readable text to image</strong>
+                <strong>Render readable text inside the image</strong>
               </label>
               <div id="sc_text_fields" class="sc-text-fields">
                 <div class="sc-row">
                   <label class="sc-field">
                     <span>Text content <em>max 5 words</em></span>
+                    <p class="sc-field-hint">Accuracy drops sharply above 5 words</p>
                     <input type="text" id="sc_text_content" placeholder="HELLO WORLD" />
                   </label>
                   <label class="sc-field">
                     <span>Text color</span>
+                    <p class="sc-field-hint">Color or material effect (e.g. glowing neon)</p>
                     <input type="text" id="sc_text_color" placeholder="e.g. glowing cyan" />
                   </label>
                 </div>
@@ -655,14 +689,14 @@
                     <input type="checkbox" id="sc_magic_prompt" checked />
                     <strong>Magic Prompt Enhancer</strong>
                   </div>
-                  <p>AI enriches your prompt with descriptive adjectives for richer output.</p>
+                  <p>AI rewrites your prompt with richer descriptive vocabulary before generation.</p>
                 </label>
                 <label class="sc-toggle-card">
                   <div class="sc-toggle-head">
                     <input type="checkbox" id="sc_hdr" checked />
                     <strong>HDR Mode</strong>
                   </div>
-                  <p>Balances shadows and highlights for greater dynamic range.</p>
+                  <p>Balances shadows and highlights post-process for greater dynamic range output.</p>
                 </label>
               </div>
             </div>

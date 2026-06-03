@@ -453,26 +453,58 @@ function renderDropzones() {
   els.dropzones.innerHTML = imageRoles.map((role) => {
     const image = state.images[role.id];
     const status = state.analysisStatus[role.id];
-    return `
-      <article class="dropzone ${image ? "has-image" : ""}">
-        <div class="thumb">${image ? `<img src="${image.preview}" alt="${role.title} reference" />` : iconSvg()}</div>
-        <div class="upload-copy">
-          <div class="upload-title">${role.title}</div>
-          <div class="upload-meta">${role.meta}</div>
-          <label class="upload-button">Choose image<input type="file" accept="image/*" data-upload="${role.id}" /></label>
-        </div>
-        ${image ? `
-          <label class="analysis-field">
-            <span>AI visual analysis</span>
-            <textarea data-analysis="${role.id}" placeholder="${analysisPlaceholders[role.id]}">${escapeTextarea(image.analysis || "")}</textarea>
-            <div class="analysis-actions">
-              <small>${status || image.metadata.summary}</small>
-              <div class="analysis-action-btns">
-                <button class="analysis-button" type="button" data-analyze="${role.id}">${state.analysisInFlight[role.id] ? "Analyzing" : "Analyze"}</button>
-                <button class="lib-save-btn" type="button" data-save="${role.id}">Save</button>
-              </div>
+    const inFlight = state.analysisInFlight[role.id];
+    const isAnalyzed = Boolean(image?.analysis?.trim());
+
+    if (!image) {
+      return `
+        <article class="dz dz-empty">
+          <label class="dz-upload-zone">
+            <div class="dz-upload-icon">${iconSvg()}</div>
+            <div class="dz-upload-info">
+              <span class="dz-title">${role.title}</span>
+              <span class="dz-meta">${role.meta}</span>
             </div>
-          </label>` : ""}
+            <span class="dz-upload-cta">Choose image</span>
+            <input type="file" accept="image/*" data-upload="${role.id}" />
+          </label>
+        </article>`;
+    }
+
+    const statusText = status || image.metadata?.summary || "";
+    const analyzeLabel = inFlight ? "Analyzing…" : "Re-analyze";
+    const analyzedPill = isAnalyzed
+      ? `<span class="dz-analyzed-pill">✓ analyzed</span>`
+      : inFlight
+        ? `<span class="dz-analyzing-pill">analyzing…</span>`
+        : `<span class="dz-pending-pill">not analyzed</span>`;
+
+    return `
+      <article class="dz dz-loaded">
+        <div class="dz-header">
+          <div class="dz-thumb">
+            <img src="${image.preview}" alt="${role.title} reference" />
+            <label class="dz-replace-btn" title="Replace image">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
+              <input type="file" accept="image/*" data-upload="${role.id}" />
+            </label>
+          </div>
+          <div class="dz-info">
+            <div class="dz-title-row">
+              <span class="dz-role-badge dz-role-${role.id}">${role.title}</span>
+              ${analyzedPill}
+            </div>
+            <p class="dz-status-text">${escapeHtml(statusText)}</p>
+            <div class="dz-btn-row">
+              <button class="btn-sm btn-analyze" type="button" data-analyze="${role.id}">${analyzeLabel}</button>
+              <button class="btn-sm btn-save" type="button" data-save="${role.id}">Save to Library</button>
+            </div>
+          </div>
+        </div>
+        <label class="dz-analysis-wrap">
+          <span class="dz-analysis-label">AI visual analysis</span>
+          <textarea class="dz-analysis-ta" data-analysis="${role.id}" placeholder="${analysisPlaceholders[role.id]}">${escapeTextarea(image.analysis || "")}</textarea>
+        </label>
       </article>`;
   }).join("");
 

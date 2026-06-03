@@ -100,7 +100,70 @@
     const outfit = structuredRole("outfit");
     const scene = structuredRole("scene");
 
+    // ── Schema-driven sections ──────────────────────────────────────
+
+    const meta = {
+      aspect_ratio: state.ratio,
+      quality: schemaState.quality,
+      safety_filter: schemaState.safety_filter,
+      steps: schemaState.steps,
+      guidance_scale: schemaState.guidance_scale,
+      ...(schemaState.seed !== null ? { seed: schemaState.seed } : {})
+    };
+
+    const technical = {};
+    if (schemaState.camera_model) technical.camera_model = schemaState.camera_model;
+    if (schemaState.lens) technical.lens = schemaState.lens;
+    if (schemaState.aperture) technical.aperture = schemaState.aperture;
+    if (schemaState.shutter_speed) technical.shutter_speed = schemaState.shutter_speed;
+    if (schemaState.iso) technical.iso = schemaState.iso;
+    if (schemaState.film_stock) technical.film_stock = schemaState.film_stock;
+
+    const compositionSchema = {};
+    if (schemaState.framing) compositionSchema.framing = schemaState.framing;
+    if (schemaState.angle) compositionSchema.angle = schemaState.angle;
+    if (schemaState.focus_point) compositionSchema.focus_point = schemaState.focus_point;
+
+    const sceneLighting = {};
+    if (schemaState.lighting_type) sceneLighting.type = schemaState.lighting_type;
+    if (schemaState.lighting_direction) sceneLighting.direction = schemaState.lighting_direction;
+
+    const text_rendering = schemaState.text_enabled
+      ? {
+          enabled: true,
+          text_content: schemaState.text_content || "",
+          ...(schemaState.text_placement ? { placement: schemaState.text_placement } : {}),
+          ...(schemaState.text_font_style ? { font_style: schemaState.text_font_style } : {}),
+          ...(schemaState.text_color ? { color: schemaState.text_color } : {})
+        }
+      : { enabled: false };
+
+    const style_modifiers = {};
+    if (schemaState.style_medium) style_modifiers.medium = schemaState.style_medium;
+    if (schemaState.style_aesthetics.length) style_modifiers.aesthetic = [...schemaState.style_aesthetics];
+    if (schemaState.artist_reference) style_modifiers.artist_reference = [schemaState.artist_reference];
+
+    const advanced = {
+      magic_prompt_enhancer: schemaState.magic_prompt_enhancer,
+      hdr_mode: schemaState.hdr_mode,
+      negative_prompt: [readField("negative")].filter(Boolean)
+    };
+
+    const demographics = {
+      ...(schemaState.gender ? { gender: schemaState.gender } : {}),
+      ...(schemaState.age ? { age: schemaState.age } : { age: "preserve apparent age from references" }),
+      ethnicity: "not inferred unless written by user",
+      expression: schemaState.expression || "neutral"
+    };
+
+    const hair = {};
+    if (schemaState.hair_style) hair.style = schemaState.hair_style;
+    if (schemaState.hair_color) hair.color = schemaState.hair_color;
+
+    // ────────────────────────────────────────────────────────────────
+
     return {
+      meta,
       model,
       model_alias: model === "gemini-3-pro-image" ? "Nano Banana Pro" : "Nano Banana 2",
       image_reference_status: {
@@ -108,13 +171,10 @@
         missing_analysis_slots: missingAnalysisSlots
       },
       subject: {
-        identity_token: "Character_Main_Female",
+        identity_token: "Character_Main",
         reference_policy: "face=identity, body=proportions/pose, outfit=wardrobe, scene=environment only",
-        demographics: {
-          gender: "female",
-          age: "adult; preserve apparent age from references",
-          ethnicity: "not inferred unless written by user"
-        },
+        demographics,
+        ...(Object.keys(hair).length ? { hair } : {}),
         face: {
           ...referenceSource("face", "manual identity instruction"),
           instruction: fieldBrief("identity"),
@@ -188,13 +248,15 @@
         }
       },
       scene: {
+        ...(schemaState.scene_time ? { time: schemaState.scene_time } : {}),
+        ...(schemaState.scene_weather ? { weather: schemaState.scene_weather } : {}),
+        ...(Object.keys(sceneLighting).length ? { lighting_parameters: sceneLighting } : {}),
         ...referenceSource("scene", "manual scene instruction or selected scene preset"),
         instruction: fieldBrief("scene"),
         reference_analysis: state.images.scene ? referenceAnalysis("scene") : null,
         environment: state.images.scene
           ? partText(scene, "place_type", scene?.description || readField("scene"))
           : readField("scene"),
-        time_of_day: "derive only from scene reference or written scene instruction",
         foreground_elements: [],
         background_elements: nonEmptyList([partText(scene, "layout_architecture"), partText(scene, "depth_perspective")]),
         textures_and_surfaces: {
@@ -217,6 +279,7 @@
           : "No scene reference image; use written scene/preset only."
       },
       composition: {
+        ...(Object.keys(compositionSchema).length ? compositionSchema : {}),
         pose: {
           description: partText(body, "posture_pose", readField("body")),
           stance: partText(body, "silhouette", "natural creator stance, grounded weight"),
@@ -236,6 +299,9 @@
           artifacts: "mild sensor noise, compression, natural sharpening"
         }
       },
+      ...(Object.keys(technical).length ? { technical } : {}),
+      text_rendering,
+      ...(Object.keys(style_modifiers).length ? { style_modifiers } : {}),
       lighting_and_atmosphere: {
         primary_light: {
           instruction: readField("lighting"),
@@ -253,13 +319,7 @@
         lock: "real Instagram creator photo; pores, fine lines, blemishes, asymmetry, fabric texture, real shadows, mild noise/compression",
         anti_ai_finish: "no plastic skin, waxy highlights, airbrushing, perfect AI background, or generic model face"
       },
-      negative_prompt: {
-        instruction: readField("negative"),
-        anatomy: "extra/fused fingers, warped hands, distorted joints, impossible posture",
-        identity: "identity drift, face reshaping, generic replacement face",
-        rendering: "airbrushed/poreless/plastic skin, CGI sheen, fake bokeh",
-        scene: "floating subject, mismatched shadows, copied scene people, unwanted text/logos/watermarks/UI"
-      },
+      advanced,
       technical_specifications: {
         output_format: "JSON prompt for image generation",
         aspect_ratio: state.ratio,

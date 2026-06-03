@@ -541,6 +541,141 @@ els.copyJson.addEventListener("click", async () => {
   }
 });
 
+const schemaState = {
+  activeSchemaTab: "meta",
+  quality: "ultra_photorealistic",
+  safety_filter: "block_some",
+  steps: 40,
+  guidance_scale: 7.5,
+  seed: null,
+  scene_time: "",
+  scene_weather: "",
+  lighting_type: "",
+  lighting_direction: "",
+  camera_model: "",
+  lens: "",
+  aperture: "",
+  shutter_speed: "",
+  iso: "",
+  film_stock: "",
+  framing: "",
+  angle: "",
+  focus_point: "",
+  expression: "neutral",
+  gender: "",
+  age: "",
+  hair_style: "",
+  hair_color: "",
+  style_medium: "",
+  style_aesthetics: [],
+  artist_reference: "",
+  text_enabled: false,
+  text_content: "",
+  text_placement: "",
+  text_font_style: "",
+  text_color: "",
+  magic_prompt_enhancer: true,
+  hdr_mode: true
+};
+
+const aestheticOptions = [
+  "cyberpunk", "steampunk", "vaporwave", "synthwave", "noir",
+  "minimalist", "maximalist", "gothic", "baroque", "retro_80s",
+  "vintage_50s", "futuristic", "post_apocalyptic", "ethereal", "dreamcore", "weirdcore"
+];
+
+function renderAestheticChips() {
+  const container = document.getElementById("sc_aesthetics");
+  if (!container) return;
+  container.innerHTML = aestheticOptions.map((a) => {
+    const active = schemaState.style_aesthetics.includes(a);
+    return `<button class="chip ${active ? "active" : ""}" type="button" data-aesthetic="${a}">${a.replace(/_/g, " ")}</button>`;
+  }).join("");
+  container.querySelectorAll("[data-aesthetic]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const val = btn.dataset.aesthetic;
+      const idx = schemaState.style_aesthetics.indexOf(val);
+      if (idx >= 0) schemaState.style_aesthetics.splice(idx, 1);
+      else schemaState.style_aesthetics.push(val);
+      renderAestheticChips();
+      updateOutput();
+    });
+  });
+}
+
+// Schema tab switching
+document.querySelectorAll("[data-stab]").forEach((tab) => {
+  tab.addEventListener("click", () => {
+    schemaState.activeSchemaTab = tab.dataset.stab;
+    document.querySelectorAll("[data-stab]").forEach((t) => t.classList.toggle("active", t === tab));
+    document.querySelectorAll("[data-spanel]").forEach((p) => p.classList.toggle("active", p.dataset.spanel === schemaState.activeSchemaTab));
+  });
+});
+
+// Schema select / input field bindings
+const schemaFieldMap = {
+  sc_quality:       (v) => { schemaState.quality = v; },
+  sc_safety:        (v) => { schemaState.safety_filter = v; },
+  sc_steps:         (v) => { schemaState.steps = parseInt(v, 10) || 40; },
+  sc_guidance:      (v) => { schemaState.guidance_scale = parseFloat(v) || 7.5; },
+  sc_seed:          (v) => { schemaState.seed = v ? parseInt(v, 10) : null; },
+  sc_time:          (v) => { schemaState.scene_time = v; },
+  sc_weather:       (v) => { schemaState.scene_weather = v; },
+  sc_light_type:    (v) => { schemaState.lighting_type = v; },
+  sc_light_dir:     (v) => { schemaState.lighting_direction = v; },
+  sc_camera_model:  (v) => { schemaState.camera_model = v; },
+  sc_lens:          (v) => { schemaState.lens = v; },
+  sc_aperture:      (v) => { schemaState.aperture = v; },
+  sc_shutter:       (v) => { schemaState.shutter_speed = v; },
+  sc_iso:           (v) => { schemaState.iso = v; },
+  sc_film:          (v) => { schemaState.film_stock = v; },
+  sc_framing:       (v) => { schemaState.framing = v; },
+  sc_angle:         (v) => { schemaState.angle = v; },
+  sc_focus:         (v) => { schemaState.focus_point = v; },
+  sc_expression:    (v) => { schemaState.expression = v; },
+  sc_gender:        (v) => { schemaState.gender = v; },
+  sc_age:           (v) => { schemaState.age = v; },
+  sc_hair_style:    (v) => { schemaState.hair_style = v; },
+  sc_hair_color:    (v) => { schemaState.hair_color = v; },
+  sc_medium:        (v) => { schemaState.style_medium = v; },
+  sc_artist:        (v) => { schemaState.artist_reference = v; },
+  sc_text_content:  (v) => { schemaState.text_content = v; },
+  sc_text_color:    (v) => { schemaState.text_color = v; },
+  sc_text_placement:(v) => { schemaState.text_placement = v; },
+  sc_text_font:     (v) => { schemaState.text_font_style = v; }
+};
+
+Object.entries(schemaFieldMap).forEach(([id, setter]) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const handler = () => { setter(el.value); updateOutput(); };
+  el.addEventListener("input", handler);
+  el.addEventListener("change", handler);
+});
+
+document.getElementById("sc_text_enabled")?.addEventListener("change", (e) => {
+  schemaState.text_enabled = e.target.checked;
+  const fields = document.getElementById("sc_text_fields");
+  if (fields) fields.style.display = e.target.checked ? "" : "none";
+  updateOutput();
+});
+
+document.getElementById("sc_magic_prompt")?.addEventListener("change", (e) => {
+  schemaState.magic_prompt_enhancer = e.target.checked;
+  updateOutput();
+});
+
+document.getElementById("sc_hdr")?.addEventListener("change", (e) => {
+  schemaState.hdr_mode = e.target.checked;
+  updateOutput();
+});
+
+// Hide text fields initially (text rendering is off by default)
+const initialTextFields = document.getElementById("sc_text_fields");
+if (initialTextFields) initialTextFields.style.display = "none";
+
+renderAestheticChips();
+
 renderDropzones();
 renderPresetGrid();
 updateOutput();

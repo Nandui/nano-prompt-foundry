@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node --check app.js && node --check server.js",
-    "lint": "node --check app.js && node --check server.js",
+    "build": "node --check app.js && node --check server.js && node --check lib/vision.js && node --check api/health.js && node --check api/analyze-image.js",
+    "lint": "npm run build",
     "start": "node server.js"
   }
 }

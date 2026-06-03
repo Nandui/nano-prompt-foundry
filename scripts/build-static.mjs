@@ -1,6 +1,6 @@
 import { copyFile, mkdir, rm } from "node:fs/promises";
 
-const outputDir = new URL("../dist/", import.meta.url);
+const outputDir = new URL("../public/", import.meta.url);
 const staticFiles = ["index.html", "styles.css", "app.js"];
 
 await rm(outputDir, { recursive: true, force: true });

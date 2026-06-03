@@ -10,7 +10,7 @@ Local web app for building structured Nano Banana Pro / Nano Banana 2 prompt JSO
 - Export nested JSON with body, outfit, scene, realism, and prompt-budget fields.
 - Keep the generated prompt under a 15,000 character limit.
 
-## Run
+## Run Locally
 
 ```powershell
 $env:APIYI_API_KEY="your_apiyi_key"
@@ -24,6 +24,18 @@ http://localhost:4173
 ```
 
 The default vision provider is APIYi with `gemini-2.5-pro`.
+
+## Deploy On Vercel
+
+Set these environment variables in Vercel Project Settings:
+
+```text
+APIYI_API_KEY=your_apiyi_key
+AI_PROVIDER=apiyi
+APIYI_VISION_MODEL=gemini-2.5-pro
+```
+
+Vercel serves `index.html`, `styles.css`, and `app.js` as static files. The vision endpoints run as serverless functions at `/api/health` and `/api/analyze-image`.
 
 ## Build Check
 

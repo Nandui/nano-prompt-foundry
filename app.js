@@ -467,7 +467,10 @@ function renderDropzones() {
             <textarea data-analysis="${role.id}" placeholder="${analysisPlaceholders[role.id]}">${escapeTextarea(image.analysis || "")}</textarea>
             <div class="analysis-actions">
               <small>${status || image.metadata.summary}</small>
-              <button class="analysis-button" type="button" data-analyze="${role.id}">${state.analysisInFlight[role.id] ? "Analyzing" : "Analyze"}</button>
+              <div class="analysis-action-btns">
+                <button class="analysis-button" type="button" data-analyze="${role.id}">${state.analysisInFlight[role.id] ? "Analyzing" : "Analyze"}</button>
+                <button class="lib-save-btn" type="button" data-save="${role.id}">Save</button>
+              </div>
             </div>
           </label>` : ""}
       </article>`;

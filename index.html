@@ -19,7 +19,12 @@
 
         <div class="provider-card">
           <div id="providerStatus" class="provider-status">Vision provider: checking...</div>
-          <button id="analyzeAll" class="analysis-all-button" type="button">Analyze all missing</button>
+          <div class="provider-btns">
+            <button id="analyzeAll" class="analysis-all-button" type="button">Analyze all missing</button>
+            <button id="libraryOpenBtn" class="library-open-btn" type="button">
+              Library<span id="libCountBadge" class="lib-count-badge"></span>
+            </button>
+          </div>
         </div>
 
         <div id="dropzones" class="dropzone-list"></div>
@@ -684,8 +689,30 @@
       </aside>
     </main>
 
+    <!-- Image Library Modal -->
+    <div id="libraryModal" class="lib-modal" role="dialog" aria-modal="true" aria-label="Image Library" style="display:none">
+      <div class="lib-modal-inner">
+        <div class="lib-modal-head">
+          <div>
+            <h2>Image Library</h2>
+            <p>Saved reference images — click "Use in slot" to reload any image instantly.</p>
+          </div>
+          <button id="libraryCloseBtn" class="lib-close-btn" type="button" aria-label="Close library">✕</button>
+        </div>
+        <div class="lib-filter-tabs" role="tablist">
+          <button class="lib-filter-tab active" type="button" data-lib-filter="all">All</button>
+          <button class="lib-filter-tab" type="button" data-lib-filter="face">Face</button>
+          <button class="lib-filter-tab" type="button" data-lib-filter="body">Body</button>
+          <button class="lib-filter-tab" type="button" data-lib-filter="outfit">Outfit</button>
+          <button class="lib-filter-tab" type="button" data-lib-filter="scene">Scene</button>
+        </div>
+        <div id="libraryGrid" class="lib-grid"></div>
+      </div>
+    </div>
+
     <script src="./client-guard.js"></script>
     <script src="./app.js"></script>
     <script src="./schema-override.js"></script>
+    <script src="./library.js"></script>
   </body>
 </html>

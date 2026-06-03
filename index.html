@@ -19,7 +19,12 @@
 
         <div class="provider-card">
           <div id="providerStatus" class="provider-status">Vision provider: checking...</div>
-          <button id="analyzeAll" class="analysis-all-button" type="button">Analyze all missing</button>
+          <div class="provider-btns">
+            <button id="analyzeAll" class="analysis-all-button" type="button">Analyze all missing</button>
+            <button id="libraryOpenBtn" class="library-open-btn" type="button">
+              Library<span id="libCountBadge" class="lib-count-badge"></span>
+            </button>
+          </div>
         </div>
 
         <div id="dropzones" class="dropzone-list"></div>
@@ -51,10 +56,12 @@
           <div class="library-tabs" role="tablist" aria-label="Preset categories">
             <button class="library-tab active" type="button" data-library="picture">Types</button>
             <button class="library-tab" type="button" data-library="scene">Scenes</button>
-            <button class="library-tab" type="button" data-library="camera">Cameras</button>
+            <button class="library-tab" type="button" data-library="camera">Camera</button>
             <button class="library-tab" type="button" data-library="pose">Poses</button>
             <button class="library-tab" type="button" data-library="lighting">Light</button>
             <button class="library-tab" type="button" data-library="realism">Realism</button>
+            <button class="library-tab" type="button" data-library="vibe">Vibe</button>
+            <button class="library-tab" type="button" data-library="outfit">Outfit</button>
           </div>
           <div id="presetGrid" class="preset-grid"></div>
         </section>
@@ -62,46 +69,55 @@
         <div class="form-grid">
           <label class="field span-2">
             <span>Subject identity lock</span>
+            <p class="field-hint">Preserve facial geometry, skin texture, age range, hairline, and natural asymmetries</p>
             <textarea id="identity" rows="3">Preserve the face reference faithfully: facial structure, age range, skin texture, expression character, hairline, and natural asymmetries. Keep the person recognizable without stylizing or beautifying them.</textarea>
           </label>
 
           <label class="field">
-            <span>Body, pose, and gesture</span>
+            <span>Body, pose &amp; gesture</span>
+            <p class="field-hint">Height impression, proportions, posture, silhouette, and gesture</p>
             <textarea id="body" rows="4">Use the body reference for height impression, proportions, posture, pose, gesture, and silhouette. Keep anatomy physically plausible.</textarea>
           </label>
 
           <label class="field">
-            <span>Outfit and material detail</span>
+            <span>Outfit &amp; material detail</span>
+            <p class="field-hint">Garment layers, fabric weight, fit, seams, color, texture, and accessories</p>
             <textarea id="outfit" rows="4">Recreate the outfit reference with accurate garment layers, fit, seams, fabric weight, color, texture, accessories, and footwear.</textarea>
           </label>
 
           <label class="field span-2">
             <span>Scene environment only</span>
+            <p class="field-hint">Environment, architecture, lighting, depth, weather — no people or poses from this image</p>
             <textarea id="scene" rows="3">Use the scene reference only for the actual place: environment type, architecture, layout, lighting direction, color temperature, weather, depth, surface materials, reflections, and atmosphere. Do not copy people, pose, outfit, action, identity, text, logos, or foreground subject matter from the scene image.</textarea>
           </label>
 
           <label class="field">
-            <span>Camera and composition</span>
+            <span>Camera &amp; composition</span>
+            <p class="field-hint">Focal length, framing, perspective, and depth of field approach</p>
             <textarea id="camera" rows="4">Photorealistic editorial portrait, eye-level camera, 50mm lens, natural perspective, shallow but believable depth of field, subject framed from mid-thigh upward unless the body reference suggests a stronger full-body pose.</textarea>
           </label>
 
           <label class="field">
-            <span>Lighting and color grade</span>
+            <span>Lighting &amp; color grade</span>
+            <p class="field-hint">Light direction, quality, color temperature, and cinematic grade</p>
             <textarea id="lighting" rows="4">Match the scene lighting direction, exposure, color temperature, shadow softness, bounce light, highlights, and ambient occlusion. Use restrained cinematic color grading with natural skin tones.</textarea>
           </label>
 
           <label class="field">
             <span>Realism requirements</span>
+            <p class="field-hint">Anti-AI skin texture, sensor noise, fabric detail, and authentic hands</p>
             <textarea id="realism" rows="5">Instagram-grade photorealism: real phone or camera capture, natural skin pores and micro-texture, visible fabric texture, real shadows, mild sensor noise, subtle compression, natural sharpening, accurate hands, no airbrushed skin, no waxy skin, no plastic clothing, no AI smoothing.</textarea>
           </label>
 
           <label class="field">
             <span>Negative constraints</span>
+            <p class="field-hint">Artifacts, shortcuts, and elements to explicitly exclude from generation</p>
             <textarea id="negative" rows="5">Avoid identity drift, extra fingers, distorted hands, mismatched lighting, floating subject, pasted edges, airbrushed skin, poreless porcelain texture, plastic skin, waxy highlights, face reshaping, over-smoothed body texture, fantasy styling, generic model face, warped logos, unreadable text, watermarks, captions, UI elements.</textarea>
           </label>
 
           <div class="field controls-panel">
             <span>Output format</span>
+            <p class="field-hint">Aspect ratio and resolution for the generated image</p>
             <div class="segmented" role="group" aria-label="Aspect ratio">
               <button class="segment active" data-ratio="4:5">4:5</button>
               <button class="segment" data-ratio="3:2">3:2</button>
@@ -121,12 +137,569 @@
           <div class="guide-card">
             <span>Realism guide lock</span>
             <ul>
-              <li>Each image has an explicit role.</li>
-              <li>Prompt locks authentic Instagram capture quality.</li>
+              <li>Each reference image has an explicit role with transfer rules.</li>
+              <li>Prompt enforces authentic Instagram capture quality, not AI art.</li>
               <li>Skin texture, body texture, and fabric detail stay natural.</li>
               <li>Camera, lighting, aspect ratio, and anti-AI constraints are stated.</li>
               <li>No airbrushed, plastic, waxy, or poreless beauty-filter output.</li>
             </ul>
+          </div>
+
+          <div class="schema-controls span-2">
+            <div class="schema-head">
+              <span>Generation Schema</span>
+              <p>Structured Gemini 3 Pro parameters — tune quality, camera, scene, and style</p>
+            </div>
+            <div class="schema-tabs" role="tablist" aria-label="Schema parameter sections">
+              <button class="schema-tab active" type="button" data-stab="meta">Meta</button>
+              <button class="schema-tab" type="button" data-stab="scene_p">Scene</button>
+              <button class="schema-tab" type="button" data-stab="camera_p">Camera</button>
+              <button class="schema-tab" type="button" data-stab="compose_p">Frame</button>
+              <button class="schema-tab" type="button" data-stab="subject_p">Subject</button>
+              <button class="schema-tab" type="button" data-stab="style_p">Style</button>
+              <button class="schema-tab" type="button" data-stab="text_p">Text</button>
+              <button class="schema-tab" type="button" data-stab="more_p">More</button>
+            </div>
+
+            <!-- Meta -->
+            <div class="schema-panel active" data-spanel="meta">
+              <div class="sc-row">
+                <label class="sc-field">
+                  <span>Quality mode</span>
+                  <p class="sc-field-hint">Rendering style and artistic medium preset</p>
+                  <select id="sc_quality">
+                    <option value="ultra_photorealistic" selected>Ultra Photorealistic</option>
+                    <option value="standard">Standard</option>
+                    <option value="raw">Raw</option>
+                    <option value="anime_v6">Anime v6</option>
+                    <option value="3d_render_octane">3D Render (Octane)</option>
+                    <option value="oil_painting">Oil Painting</option>
+                    <option value="sketch">Sketch</option>
+                    <option value="pixel_art">Pixel Art</option>
+                    <option value="vector_illustration">Vector Illustration</option>
+                  </select>
+                </label>
+                <label class="sc-field">
+                  <span>Safety filter</span>
+                  <p class="sc-field-hint">Content sensitivity filter level</p>
+                  <select id="sc_safety">
+                    <option value="block_none">Block None</option>
+                    <option value="block_few">Block Few</option>
+                    <option value="block_some" selected>Block Some</option>
+                    <option value="block_most">Block Most</option>
+                  </select>
+                </label>
+              </div>
+              <div class="sc-row sc-row-3">
+                <label class="sc-field">
+                  <span>Steps <em>10–100</em></span>
+                  <p class="sc-field-hint">Higher = finer detail, slower</p>
+                  <input type="number" id="sc_steps" min="10" max="100" value="40" />
+                </label>
+                <label class="sc-field">
+                  <span>Guidance <em>1–20</em></span>
+                  <p class="sc-field-hint">How strictly to follow the prompt</p>
+                  <input type="number" id="sc_guidance" min="1" max="20" step="0.5" value="7.5" />
+                </label>
+                <label class="sc-field">
+                  <span>Seed <em>optional</em></span>
+                  <p class="sc-field-hint">Fix value to reproduce results</p>
+                  <input type="number" id="sc_seed" placeholder="random" />
+                </label>
+              </div>
+            </div>
+
+            <!-- Scene -->
+            <div class="schema-panel" data-spanel="scene_p">
+              <div class="sc-row">
+                <label class="sc-field">
+                  <span>Time of day</span>
+                  <p class="sc-field-hint">Sets sky color, shadow length, and ambient mood</p>
+                  <select id="sc_time">
+                    <option value="">— auto —</option>
+                    <option value="golden_hour">Golden Hour</option>
+                    <option value="blue_hour">Blue Hour</option>
+                    <option value="high_noon">High Noon</option>
+                    <option value="midnight">Midnight</option>
+                    <option value="sunrise">Sunrise</option>
+                    <option value="sunset">Sunset</option>
+                    <option value="twilight">Twilight</option>
+                    <option value="pitch_black">Pitch Black</option>
+                  </select>
+                </label>
+                <label class="sc-field">
+                  <span>Weather</span>
+                  <p class="sc-field-hint">Adds atmospheric conditions to the scene</p>
+                  <select id="sc_weather">
+                    <option value="">— auto —</option>
+                    <option value="clear_skies">Clear Skies</option>
+                    <option value="overcast">Overcast</option>
+                    <option value="rainy">Rainy</option>
+                    <option value="stormy">Stormy</option>
+                    <option value="snowing">Snowing</option>
+                    <option value="foggy">Foggy</option>
+                    <option value="hazy">Hazy</option>
+                    <option value="sandstorm">Sandstorm</option>
+                    <option value="acid_rain">Acid Rain</option>
+                  </select>
+                </label>
+              </div>
+              <div class="sc-row">
+                <label class="sc-field">
+                  <span>Lighting type</span>
+                  <p class="sc-field-hint">Primary light source character and quality</p>
+                  <select id="sc_light_type">
+                    <option value="">— auto —</option>
+                    <option value="natural_sunlight">Natural Sunlight</option>
+                    <option value="studio_softbox">Studio Softbox</option>
+                    <option value="hard_flash">Hard Flash</option>
+                    <option value="neon_lights">Neon Lights</option>
+                    <option value="candlelight">Candlelight</option>
+                    <option value="cinematic">Cinematic</option>
+                    <option value="bioluminescent">Bioluminescent</option>
+                    <option value="firelight">Firelight</option>
+                    <option value="god_rays">God Rays</option>
+                    <option value="rembrandt">Rembrandt</option>
+                  </select>
+                </label>
+                <label class="sc-field">
+                  <span>Light direction</span>
+                  <p class="sc-field-hint">Key light position relative to subject</p>
+                  <select id="sc_light_dir">
+                    <option value="">— auto —</option>
+                    <option value="front_lit">Front Lit</option>
+                    <option value="back_lit">Back Lit</option>
+                    <option value="side_lit">Side Lit</option>
+                    <option value="top_down">Top Down</option>
+                    <option value="rim_light">Rim Light</option>
+                    <option value="silhouette">Silhouette</option>
+                    <option value="under_lit">Under Lit</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <!-- Camera -->
+            <div class="schema-panel" data-spanel="camera_p">
+              <div class="sc-row">
+                <label class="sc-field">
+                  <span>Camera body</span>
+                  <p class="sc-field-hint">Determines color science, sensor noise, and format feel</p>
+                  <select id="sc_camera_model">
+                    <option value="">— auto —</option>
+                    <option value="iPhone 15 Pro">iPhone 15 Pro</option>
+                    <option value="Sony A7R IV">Sony A7R IV</option>
+                    <option value="Leica M6">Leica M6</option>
+                    <option value="Canon EOS R5">Canon EOS R5</option>
+                    <option value="Hasselblad X2D">Hasselblad X2D</option>
+                    <option value="Polaroid Now">Polaroid Now</option>
+                    <option value="GoPro Hero 12">GoPro Hero 12</option>
+                    <option value="CCTV Security Cam">CCTV Security Cam</option>
+                  </select>
+                </label>
+                <label class="sc-field">
+                  <span>Lens</span>
+                  <p class="sc-field-hint">Focal length controls perspective compression</p>
+                  <select id="sc_lens">
+                    <option value="">— auto —</option>
+                    <option value="16mm">16mm — Ultra Wide</option>
+                    <option value="24mm">24mm — Wide</option>
+                    <option value="35mm">35mm — Street</option>
+                    <option value="50mm">50mm — Standard</option>
+                    <option value="85mm">85mm — Portrait</option>
+                    <option value="105mm">105mm</option>
+                    <option value="200mm">200mm — Telephoto</option>
+                    <option value="400mm">400mm — Super Tele</option>
+                    <option value="macro_100mm">Macro 100mm</option>
+                    <option value="fisheye_8mm">Fisheye 8mm</option>
+                  </select>
+                </label>
+              </div>
+              <div class="sc-row">
+                <label class="sc-field">
+                  <span>Aperture</span>
+                  <p class="sc-field-hint">f/1.2 = max blur · f/16 = everything sharp</p>
+                  <select id="sc_aperture">
+                    <option value="">— auto —</option>
+                    <option value="f/1.2">f/1.2 — Max bokeh</option>
+                    <option value="f/1.4">f/1.4</option>
+                    <option value="f/1.8">f/1.8</option>
+                    <option value="f/2.8">f/2.8</option>
+                    <option value="f/4.0">f/4.0</option>
+                    <option value="f/5.6">f/5.6</option>
+                    <option value="f/8.0">f/8.0</option>
+                    <option value="f/11">f/11</option>
+                    <option value="f/16">f/16 — All sharp</option>
+                  </select>
+                </label>
+                <label class="sc-field">
+                  <span>Shutter speed</span>
+                  <p class="sc-field-hint">1/8000 freezes motion · bulb = light trails</p>
+                  <select id="sc_shutter">
+                    <option value="">— auto —</option>
+                    <option value="1/8000">1/8000 — Freeze</option>
+                    <option value="1/4000">1/4000</option>
+                    <option value="1/1000">1/1000</option>
+                    <option value="1/500">1/500</option>
+                    <option value="1/250">1/250</option>
+                    <option value="1/125">1/125</option>
+                    <option value="1/60">1/60</option>
+                    <option value="1/30">1/30 — Motion blur</option>
+                    <option value="1/15">1/15</option>
+                    <option value="1s">1s</option>
+                    <option value="long_exposure_bulb">Bulb — Light trails</option>
+                  </select>
+                </label>
+              </div>
+              <div class="sc-row">
+                <label class="sc-field">
+                  <span>ISO</span>
+                  <p class="sc-field-hint">Higher = more grain and shadow noise</p>
+                  <select id="sc_iso">
+                    <option value="">— auto —</option>
+                    <option value="100">ISO 100 — Clean</option>
+                    <option value="200">ISO 200</option>
+                    <option value="400">ISO 400</option>
+                    <option value="800">ISO 800</option>
+                    <option value="1600">ISO 1600</option>
+                    <option value="3200">ISO 3200 — Gritty</option>
+                    <option value="6400">ISO 6400</option>
+                    <option value="12800">ISO 12800 — Very noisy</option>
+                  </select>
+                </label>
+                <label class="sc-field">
+                  <span>Film stock</span>
+                  <p class="sc-field-hint">Applies analog film color emulation and grain</p>
+                  <select id="sc_film">
+                    <option value="">— none —</option>
+                    <option value="Kodak Portra 400">Kodak Portra 400</option>
+                    <option value="Kodak Gold 200">Kodak Gold 200</option>
+                    <option value="Kodak Ektar 100">Kodak Ektar 100</option>
+                    <option value="Fujifilm Pro 400H">Fujifilm Pro 400H</option>
+                    <option value="Fujifilm Velvia 50">Fujifilm Velvia 50</option>
+                    <option value="CineStill 800T">CineStill 800T</option>
+                    <option value="Ilford HP5 Plus (B&amp;W)">Ilford HP5 (B&amp;W)</option>
+                    <option value="Kodak Tri-X 400 (B&amp;W)">Kodak Tri-X (B&amp;W)</option>
+                    <option value="Polaroid 600">Polaroid 600</option>
+                    <option value="Kodachrome 64">Kodachrome 64</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <!-- Frame / Composition -->
+            <div class="schema-panel" data-spanel="compose_p">
+              <div class="sc-row">
+                <label class="sc-field">
+                  <span>Framing</span>
+                  <p class="sc-field-hint">How much of the subject fills the frame</p>
+                  <select id="sc_framing">
+                    <option value="">— auto —</option>
+                    <option value="extreme_close_up">Extreme Close-Up</option>
+                    <option value="close_up">Close-Up</option>
+                    <option value="medium_shot">Medium Shot</option>
+                    <option value="cowboy_shot">Cowboy Shot</option>
+                    <option value="full_body">Full Body</option>
+                    <option value="wide_shot">Wide Shot</option>
+                    <option value="extreme_wide_shot">Extreme Wide</option>
+                    <option value="macro_detail">Macro Detail</option>
+                  </select>
+                </label>
+                <label class="sc-field">
+                  <span>Camera angle</span>
+                  <p class="sc-field-hint">Vertical camera position relative to subject</p>
+                  <select id="sc_angle">
+                    <option value="">— auto —</option>
+                    <option value="eye_level">Eye Level</option>
+                    <option value="low_angle">Low Angle</option>
+                    <option value="high_angle">High Angle</option>
+                    <option value="dutch_angle">Dutch Angle</option>
+                    <option value="bird_eye_view">Bird's Eye</option>
+                    <option value="worm_eye_view">Worm's Eye</option>
+                    <option value="overhead">Overhead</option>
+                    <option value="pov">POV</option>
+                    <option value="drone_view">Drone View</option>
+                  </select>
+                </label>
+              </div>
+              <div class="sc-row">
+                <label class="sc-field">
+                  <span>Focus point</span>
+                  <p class="sc-field-hint">The element rendered at sharpest focus</p>
+                  <select id="sc_focus">
+                    <option value="">— auto —</option>
+                    <option value="face">Face</option>
+                    <option value="eyes">Eyes</option>
+                    <option value="hands">Hands</option>
+                    <option value="background">Background</option>
+                    <option value="foreground_object">Foreground Object</option>
+                    <option value="whole_scene">Whole Scene</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <!-- Subject -->
+            <div class="schema-panel" data-spanel="subject_p">
+              <div class="sc-row">
+                <label class="sc-field">
+                  <span>Expression</span>
+                  <p class="sc-field-hint">Subject's facial expression and emotional tone</p>
+                  <select id="sc_expression">
+                    <option value="neutral">Neutral</option>
+                    <option value="smiling">Smiling</option>
+                    <option value="laughing">Laughing</option>
+                    <option value="angry">Angry</option>
+                    <option value="screaming">Screaming</option>
+                    <option value="crying">Crying</option>
+                    <option value="seductive">Seductive</option>
+                    <option value="stoic">Stoic</option>
+                    <option value="surprised">Surprised</option>
+                    <option value="tired">Tired</option>
+                    <option value="suspicious">Suspicious</option>
+                    <option value="pain">Pain</option>
+                  </select>
+                </label>
+                <label class="sc-field">
+                  <span>Gender</span>
+                  <p class="sc-field-hint">Adjusts pronouns and presentation cues</p>
+                  <select id="sc_gender">
+                    <option value="">— unspecified —</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="non-binary">Non-binary</option>
+                    <option value="androgynous">Androgynous</option>
+                  </select>
+                </label>
+              </div>
+              <div class="sc-row">
+                <label class="sc-field">
+                  <span>Age</span>
+                  <p class="sc-field-hint">Approximate age descriptor for face generation</p>
+                  <input type="text" id="sc_age" placeholder="e.g. 25 years old, elderly" />
+                </label>
+              </div>
+              <div class="sc-row">
+                <label class="sc-field">
+                  <span>Hair style</span>
+                  <select id="sc_hair_style">
+                    <option value="">— auto —</option>
+                    <option value="bald">Bald</option>
+                    <option value="buzz_cut">Buzz Cut</option>
+                    <option value="crew_cut">Crew Cut</option>
+                    <option value="ivy_league">Ivy League</option>
+                    <option value="caesar_cut">Caesar Cut</option>
+                    <option value="french_crop">French Crop</option>
+                    <option value="textured_crop">Textured Crop</option>
+                    <option value="fade_low">Fade Low</option>
+                    <option value="fade_mid">Fade Mid</option>
+                    <option value="fade_high">Fade High</option>
+                    <option value="skin_fade">Skin Fade</option>
+                    <option value="taper_fade">Taper Fade</option>
+                    <option value="undercut">Undercut</option>
+                    <option value="disconnected_undercut">Disconnected Undercut</option>
+                    <option value="side_part">Side Part</option>
+                    <option value="hard_part">Hard Part</option>
+                    <option value="comb_over">Comb Over</option>
+                    <option value="pompadour">Pompadour</option>
+                    <option value="quiff">Quiff</option>
+                    <option value="slicked_back">Slicked Back</option>
+                    <option value="spiky">Spiky</option>
+                    <option value="faux_hawk">Faux Hawk</option>
+                    <option value="mohawk">Mohawk</option>
+                    <option value="mullet">Mullet</option>
+                    <option value="modern_mullet">Modern Mullet</option>
+                    <option value="shag_cut">Shag Cut</option>
+                    <option value="wolf_cut">Wolf Cut</option>
+                    <option value="butterfly_cut">Butterfly Cut</option>
+                    <option value="hime_cut">Hime Cut</option>
+                    <option value="pixie_cut">Pixie Cut</option>
+                    <option value="bixie">Bixie</option>
+                    <option value="bob_cut">Bob Cut</option>
+                    <option value="french_bob">French Bob</option>
+                    <option value="blunt_bob">Blunt Bob</option>
+                    <option value="lob_long_bob">Lob / Long Bob</option>
+                    <option value="shoulder_length">Shoulder Length</option>
+                    <option value="layered_cut">Layered Cut</option>
+                    <option value="long_straight">Long Straight</option>
+                    <option value="long_wavy">Long Wavy</option>
+                    <option value="long_curly">Long Curly</option>
+                    <option value="beach_waves">Beach Waves</option>
+                    <option value="hollywood_waves">Hollywood Waves</option>
+                    <option value="blowout">Blowout</option>
+                    <option value="curtain_bangs">Curtain Bangs</option>
+                    <option value="bottleneck_bangs">Bottleneck Bangs</option>
+                    <option value="wispy_bangs">Wispy Bangs</option>
+                    <option value="blunt_bangs">Blunt Bangs</option>
+                    <option value="afro">Afro</option>
+                    <option value="short_afro">Short Afro</option>
+                    <option value="large_afro">Large Afro</option>
+                    <option value="dreadlocks">Dreadlocks</option>
+                    <option value="locs">Locs</option>
+                    <option value="faux_locs">Faux Locs</option>
+                    <option value="braids">Braids</option>
+                    <option value="box_braids">Box Braids</option>
+                    <option value="cornrows">Cornrows</option>
+                    <option value="micro_braids">Micro Braids</option>
+                    <option value="twists">Twists</option>
+                    <option value="two_strand_twists">Two Strand Twists</option>
+                    <option value="bantu_knots">Bantu Knots</option>
+                    <option value="ponytail">Ponytail</option>
+                    <option value="high_ponytail">High Ponytail</option>
+                    <option value="low_ponytail">Low Ponytail</option>
+                    <option value="pigtails">Pigtails</option>
+                    <option value="bun">Bun</option>
+                    <option value="messy_bun">Messy Bun</option>
+                    <option value="top_knot">Top Knot</option>
+                    <option value="man_bun">Man Bun</option>
+                    <option value="space_buns">Space Buns</option>
+                    <option value="half_up_half_down">Half Up Half Down</option>
+                    <option value="wet_look">Wet Look</option>
+                    <option value="windswept">Windswept</option>
+                  </select>
+                </label>
+                <label class="sc-field">
+                  <span>Hair color</span>
+                  <select id="sc_hair_color">
+                    <option value="">— auto —</option>
+                    <option value="jet_black">Jet Black</option>
+                    <option value="soft_black">Soft Black</option>
+                    <option value="dark_brown">Dark Brown</option>
+                    <option value="chestnut_brown">Chestnut Brown</option>
+                    <option value="light_brown">Light Brown</option>
+                    <option value="dark_blonde">Dark Blonde</option>
+                    <option value="golden_blonde">Golden Blonde</option>
+                    <option value="platinum_blonde">Platinum Blonde</option>
+                    <option value="strawberry_blonde">Strawberry Blonde</option>
+                    <option value="auburn">Auburn</option>
+                    <option value="dark_red">Dark Red</option>
+                    <option value="ginger">Ginger</option>
+                    <option value="copper">Copper</option>
+                    <option value="grey">Grey</option>
+                    <option value="silver">Silver</option>
+                    <option value="white">White</option>
+                    <option value="salt_and_pepper">Salt &amp; Pepper</option>
+                    <option value="pastel_pink">Pastel Pink</option>
+                    <option value="hot_pink">Hot Pink</option>
+                    <option value="neon_green">Neon Green</option>
+                    <option value="electric_blue">Electric Blue</option>
+                    <option value="navy_blue">Navy Blue</option>
+                    <option value="royal_purple">Royal Purple</option>
+                    <option value="lavender">Lavender</option>
+                    <option value="teal">Teal</option>
+                    <option value="rainbow">Rainbow</option>
+                    <option value="ombre">Ombré</option>
+                    <option value="highlighted">Highlighted</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <!-- Style -->
+            <div class="schema-panel" data-spanel="style_p">
+              <div class="sc-row">
+                <label class="sc-field">
+                  <span>Medium</span>
+                  <p class="sc-field-hint">Artistic rendering technique or material</p>
+                  <select id="sc_medium">
+                    <option value="">— auto —</option>
+                    <option value="photography">Photography</option>
+                    <option value="3d_render">3D Render</option>
+                    <option value="oil_painting">Oil Painting</option>
+                    <option value="watercolor">Watercolor</option>
+                    <option value="pencil_sketch">Pencil Sketch</option>
+                    <option value="ink_drawing">Ink Drawing</option>
+                    <option value="anime">Anime</option>
+                    <option value="concept_art">Concept Art</option>
+                    <option value="digital_illustration">Digital Illustration</option>
+                    <option value="claymation">Claymation</option>
+                    <option value="papercraft">Papercraft</option>
+                  </select>
+                </label>
+                <label class="sc-field">
+                  <span>Artist reference</span>
+                  <p class="sc-field-hint">Applies the visual vocabulary of this artist</p>
+                  <input type="text" id="sc_artist" placeholder="e.g. Greg Rutkowski" />
+                </label>
+              </div>
+              <div class="sc-field">
+                <span>Aesthetic <em>multi-select</em></span>
+                <div id="sc_aesthetics" class="chip-select" role="group" aria-label="Aesthetic styles"></div>
+              </div>
+            </div>
+
+            <!-- Text Rendering -->
+            <div class="schema-panel" data-spanel="text_p">
+              <label class="sc-toggle">
+                <input type="checkbox" id="sc_text_enabled" />
+                <strong>Render readable text inside the image</strong>
+              </label>
+              <div id="sc_text_fields" class="sc-text-fields">
+                <div class="sc-row">
+                  <label class="sc-field">
+                    <span>Text content <em>max 5 words</em></span>
+                    <p class="sc-field-hint">Accuracy drops sharply above 5 words</p>
+                    <input type="text" id="sc_text_content" placeholder="HELLO WORLD" />
+                  </label>
+                  <label class="sc-field">
+                    <span>Text color</span>
+                    <p class="sc-field-hint">Color or material effect (e.g. glowing neon)</p>
+                    <input type="text" id="sc_text_color" placeholder="e.g. glowing cyan" />
+                  </label>
+                </div>
+                <div class="sc-row">
+                  <label class="sc-field">
+                    <span>Placement</span>
+                    <select id="sc_text_placement">
+                      <option value="">— select —</option>
+                      <option value="floating_in_air">Floating in Air</option>
+                      <option value="neon_sign_on_wall">Neon Sign on Wall</option>
+                      <option value="printed_on_tshirt">Printed on T-Shirt</option>
+                      <option value="graffiti_on_wall">Graffiti on Wall</option>
+                      <option value="smart_phone_screen">Smartphone Screen</option>
+                      <option value="computer_monitor">Computer Monitor</option>
+                      <option value="book_cover">Book Cover</option>
+                      <option value="movie_poster">Movie Poster</option>
+                      <option value="subtitles">Subtitles</option>
+                    </select>
+                  </label>
+                  <label class="sc-field">
+                    <span>Font style</span>
+                    <select id="sc_text_font">
+                      <option value="">— auto —</option>
+                      <option value="bold_sans_serif">Bold Sans-Serif</option>
+                      <option value="elegant_serif">Elegant Serif</option>
+                      <option value="handwritten">Handwritten</option>
+                      <option value="cyberpunk_digital">Cyberpunk Digital</option>
+                      <option value="graffiti_tag">Graffiti Tag</option>
+                      <option value="gothic">Gothic</option>
+                      <option value="retro_pixel">Retro Pixel</option>
+                      <option value="neon_tube">Neon Tube</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- More / Advanced -->
+            <div class="schema-panel" data-spanel="more_p">
+              <div class="sc-row">
+                <label class="sc-toggle-card">
+                  <div class="sc-toggle-head">
+                    <input type="checkbox" id="sc_magic_prompt" checked />
+                    <strong>Magic Prompt Enhancer</strong>
+                  </div>
+                  <p>AI rewrites your prompt with richer descriptive vocabulary before generation.</p>
+                </label>
+                <label class="sc-toggle-card">
+                  <div class="sc-toggle-head">
+                    <input type="checkbox" id="sc_hdr" checked />
+                    <strong>HDR Mode</strong>
+                  </div>
+                  <p>Balances shadows and highlights post-process for greater dynamic range output.</p>
+                </label>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -150,8 +723,30 @@
       </aside>
     </main>
 
+    <!-- Image Library Modal -->
+    <div id="libraryModal" class="lib-modal" role="dialog" aria-modal="true" aria-label="Image Library" style="display:none">
+      <div class="lib-modal-inner">
+        <div class="lib-modal-head">
+          <div>
+            <h2>Image Library</h2>
+            <p>Saved reference images — click "Use in slot" to reload any image instantly.</p>
+          </div>
+          <button id="libraryCloseBtn" class="lib-close-btn" type="button" aria-label="Close library">✕</button>
+        </div>
+        <div class="lib-filter-tabs" role="tablist">
+          <button class="lib-filter-tab active" type="button" data-lib-filter="all">All</button>
+          <button class="lib-filter-tab" type="button" data-lib-filter="face">Face</button>
+          <button class="lib-filter-tab" type="button" data-lib-filter="body">Body</button>
+          <button class="lib-filter-tab" type="button" data-lib-filter="outfit">Outfit</button>
+          <button class="lib-filter-tab" type="button" data-lib-filter="scene">Scene</button>
+        </div>
+        <div id="libraryGrid" class="lib-grid"></div>
+      </div>
+    </div>
+
     <script src="./client-guard.js"></script>
     <script src="./app.js"></script>
     <script src="./schema-override.js"></script>
+    <script src="./library.js"></script>
   </body>
 </html>

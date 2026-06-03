@@ -14,7 +14,7 @@ Local web app for building structured Nano Banana Pro / Nano Banana 2 prompt JSO
 
 ```powershell
 $env:APIYI_API_KEY="your_apiyi_key"
-npm.cmd start
+npm.cmd run local
 ```
 
 Open:

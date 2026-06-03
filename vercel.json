@@ -1,3 +1,9 @@
 {
-  "buildCommand": "npm run build"
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "functions": {
+    "api/analyze-image.js": {
+      "maxDuration": 30
+    }
+  }
 }

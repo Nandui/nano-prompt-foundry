@@ -347,8 +347,49 @@
     };
   };
 
+  function truncateLongStrings(node, maxLen) {
+    if (!node || typeof node !== "object") return;
+    for (const key of Object.keys(node)) {
+      const val = node[key];
+      if (Array.isArray(val)) {
+        val.forEach((item) => { if (item && typeof item === "object") truncateLongStrings(item, maxLen); });
+      } else if (typeof val === "string" && val.length > maxLen) {
+        node[key] = val.slice(0, maxLen) + "…";
+      } else if (val && typeof val === "object") {
+        truncateLongStrings(val, maxLen);
+      }
+    }
+  }
+
+  function trimToLimit(obj) {
+    let json = JSON.stringify(obj, null, 2);
+    if (json.length <= PROMPT_CHAR_LIMIT) return { json, trimmed: false };
+
+    // Deep-clone so we don't mutate the live object
+    const o = JSON.parse(json);
+
+    // Round 1 — drop pure-documentation field (~400 chars)
+    delete o.reference_usage_rules;
+    json = JSON.stringify(o, null, 2);
+    if (json.length <= PROMPT_CHAR_LIMIT) return { json, trimmed: true };
+
+    // Rounds 2–5 — progressively shorten long strings
+    for (const maxLen of [600, 300, 150, 80]) {
+      truncateLongStrings(o, maxLen);
+      json = JSON.stringify(o, null, 2);
+      if (json.length <= PROMPT_CHAR_LIMIT) return { json, trimmed: true };
+    }
+
+    // Round 6 — compact serialisation (no whitespace saves ~20 %)
+    json = JSON.stringify(o);
+    if (json.length <= PROMPT_CHAR_LIMIT) return { json, trimmed: true };
+
+    // Round 7 — hard slice (last resort; keeps valid-enough text)
+    return { json: json.slice(0, PROMPT_CHAR_LIMIT), trimmed: true };
+  }
+
   updateOutput = function updateNestedPromptOutput() {
-    let json = JSON.stringify(buildJson(), null, 2);
+    const { json, trimmed } = trimToLimit(buildJson());
     const status = document.getElementById("copyStatus");
     document.getElementById("jsonOutput").textContent = json;
     if (typeof renderHighlightedJson === "function") {
@@ -357,10 +398,9 @@
       document.getElementById("jsonHighlighted").textContent = json;
     }
     if (status) {
-      status.textContent =
-        json.length <= PROMPT_CHAR_LIMIT
-          ? `Ready - ${json.length}/${PROMPT_CHAR_LIMIT} characters`
-          : `Over limit - ${json.length}/${PROMPT_CHAR_LIMIT} characters`;
+      status.textContent = trimmed
+        ? `Trimmed — ${json.length}/${PROMPT_CHAR_LIMIT} characters`
+        : `Ready — ${json.length}/${PROMPT_CHAR_LIMIT} characters`;
     }
   };
 

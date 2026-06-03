@@ -113,6 +113,66 @@ const presetLibraries = {
       scene: "Travel environment only: recognizable location cues, tourist-scale background detail, believable weather, architecture or landscape depth, natural surface texture.",
       camera: "Editorial travel portrait, 3:2 or 4:5 crop, 35mm lens feel, subject off-center with scenic context, clean but not staged composition.",
       lighting: "Natural outdoor light with realistic sun direction, ambient bounce, preserved sky detail, believable shadows."
+    }),
+    preset("pool-day", "Pool day", "poolside, swimwear, sun", {
+      scene: "Residential or resort pool environment only: still or rippling water with caustic light patterns, pool edge, sun lounger or tile surface, warm concrete or stone.",
+      camera: "Bright outdoor phone or camera vertical crop, subject at pool edge or waist-deep, strong top-down or eye-level angle, crisp saturated highlights.",
+      lighting: "Harsh midday or afternoon sun, bright specular reflections on water surface, warm rim light from pool shimmer, believable sun-tanned skin exposure."
+    }),
+    preset("gym-selfie", "Gym mirror", "fitness, pump check", {
+      scene: "Gym environment only: large mirror, weight racks or machines softly blurred, industrial ceiling lighting, clean gym floor, no identifiable people in background.",
+      camera: "Front camera or phone main lens gym selfie, vertical crop, mid-torso to head or full body depending on outfit, subject sharp against gym mirror.",
+      lighting: "Overhead gym LED or fluorescent, hard direct light on subject, slight mirror reflection, real skin texture and pump without beauty filter."
+    }),
+    preset("grwm", "GRWM", "vanity mirror, getting ready", {
+      scene: "Vanity or bathroom environment only: makeup laid on counter, mirror frame visible, warm globe lights or LED strip, marble or wood surface, personal products softly visible.",
+      camera: "Front camera or phone main lens, vertical crop, close-to-mid framing, face well-lit and centered, getting-ready energy.",
+      lighting: "Warm vanity globe lights or ring light, even face illumination, catchlight in eyes, soft fill, no hard shadows from above."
+    }),
+    preset("brunch", "Sunday brunch", "café table, window light", {
+      scene: "Brunch café or restaurant environment only: table with food or drinks, natural window light, bright airy interior, plants or neutral decor softly visible.",
+      camera: "Phone snapshot portrait, vertical crop, seated subject with food in foreground or beside, medium framing, clean white balance.",
+      lighting: "Bright natural side window light, airy shadows, warm neutral color temperature, clean highlights on glassware, natural skin tone."
+    }),
+    preset("night-out", "Night out", "going out, bar, heels on", {
+      scene: "Night venue or pre-night-out environment only: bar, hotel lobby, or lounge with warm practicals, bokeh background, ambient glow from screens or pendants.",
+      camera: "Close-to-medium phone portrait, vertical 4:5 crop, candid or intentionally posed going-out energy, outfit clearly visible.",
+      lighting: "Warm practical light mixed with subtle flash fill, realistic specular on fabric and skin, night atmosphere with enough exposure to read outfit detail."
+    }),
+    preset("hotel-morning", "Hotel morning", "white linen, golden light", {
+      scene: "Luxury hotel room environment only: white or cream bedding, stacked pillows, sheer curtains with morning light, neutral walls, no clutter.",
+      camera: "Morning aesthetic portrait, vertical or close-to-square crop, subject relaxed on bed or near window, close-to-mid framing.",
+      lighting: "Soft warm morning window light through sheer curtains, dreamy diffused quality, gentle fill, natural skin warmth without orange cast."
+    }),
+    preset("sunset-beach", "Sunset beach", "golden hour shoreline", {
+      scene: "Beach shoreline at golden hour environment only: warm sand, calm waterline, low sun on horizon, hazy warm sky, minimal clutter.",
+      body: "Relaxed beach pose facing or turned from the sun, natural weight on one leg, hair moved by gentle breeze, arms loose.",
+      lighting: "Low golden sun backlight or side rim, warm skin highlight, soft shadow fill from sky bounce, golden haze, sand-reflected warm fill below."
+    }),
+    preset("festival-fit", "Festival fit", "outdoor event, crowd energy", {
+      scene: "Outdoor festival or concert environment only: crowd softly blurred in background, stage lighting spill, dusty or grass ground, daytime or evening atmosphere.",
+      body: "Festival energy pose: confident natural stance, slight movement, arms loose, candid celebratory feel without forced posing.",
+      camera: "Candid festival shot, 35mm or phone feel, vertical crop, subject sharp against blurred festival crowd, real-world noise and color."
+    }),
+    preset("shopping", "Shopping day", "luxury retail, bags", {
+      scene: "Luxury retail or shopping mall environment only: polished floors, boutique shelving softly visible, glass and chrome reflections, clean high-end interior.",
+      body: "One or both hands on shopping bags, natural weight shift, relaxed confident stance with retail context.",
+      camera: "Editorial shopping portrait, vertical crop, full or three-quarter body, 50mm feel, subject sharp against soft retail depth."
+    }),
+    preset("soft-morning", "Soft morning", "bedroom, cozy, first light", {
+      scene: "Cozy bedroom environment only: soft bedding, warm neutral tones, curtains with morning light, personal items natural and lived-in, no showroom staging.",
+      camera: "Intimate morning aesthetic, vertical crop, close-to-medium framing, soft natural perspective, no harsh angles.",
+      lighting: "Diffused morning window light through curtains, gentle shadows, warm white balance, no artificial sources, quiet and intimate."
+    }),
+    preset("rooftop-moment", "Rooftop moment", "skyline, golden vibes", {
+      scene: "Rooftop environment at golden or magic hour: soft city skyline visible, railing or ledge, warm ambient glow, atmospheric evening haze.",
+      lighting: "Low warm side or back light from descending sun, city ambient fill, realistic skin warmth, soft contrast.",
+      camera: "Social portrait on rooftop, vertical crop, medium framing, city skyline depth behind subject."
+    }),
+    preset("city-night-walk", "Night city walk", "street lights, urban energy", {
+      scene: "Urban street at night environment only: streetlights, shopfront glow, wet pavement reflections optional, real city depth, indistinct pedestrians at distance.",
+      body: "Candid mid-walk pose, natural stride, hands loose, coat or jacket in motion, eyes forward or glancing to side.",
+      lighting: "Mixed streetlight and practical ambient, realistic skin under artificial light, mild grain, warm sodium or cool LED street spill."
     })
   ],
   scene: [
@@ -121,7 +181,75 @@ const presetLibraries = {
     preset("rooftop-night", "Rooftop night", "city lights", { scene: "Urban rooftop at night with city lights, safety railing, concrete or tile surface, believable depth, and slight evening atmosphere.", lighting: "Mixed city ambient light, practical highlights, realistic low-light grain, controlled face visibility without fake studio light." }),
     preset("beach-walk", "Beach walk", "sand and shore", { scene: "Natural beach shoreline with textured sand, waterline, indistinct distant people if present, wind movement, and realistic horizon placement.", lighting: "Soft coastal light, reflective sand bounce, gentle highlights, realistic wind-driven hair and fabric shadows." }),
     preset("airport", "Airport travel", "terminal and luggage", { scene: "Airport terminal or travel corridor with luggage, polished floors, unreadable signage, glass, and realistic depth cues.", lighting: "Large indoor terminal light, reflective floor bounce, neutral white balance, realistic phone-camera sharpness." }),
-    preset("cafe-window", "Cafe window", "table and street depth", { scene: "Cafe table by a window with coffee, glass reflections, street depth outside, wood or stone table texture, believable background blur.", lighting: "Soft window light, warm interior practicals, natural face shadows, realistic highlights on glassware." })
+    preset("cafe-window", "Cafe window", "table and street depth", { scene: "Cafe table by a window with coffee, glass reflections, street depth outside, wood or stone table texture, believable background blur.", lighting: "Soft window light, warm interior practicals, natural face shadows, realistic highlights on glassware." }),
+    preset("luxury-hotel", "Luxury hotel", "marble lobby, gold fixtures", {
+      scene: "5-star hotel lobby or hallway environment only: marble floors, grand columns, soft gold or brass fixtures, lush floral arrangements, high ceilings, no identifiable guests or staff.",
+      lighting: "Warm hotel ambient with recessed ceiling and chandelier glow, polished floor reflections, even flattering exposure, no harsh shadows."
+    }),
+    preset("rooftop-pool", "Rooftop pool", "infinity edge, city vista", {
+      scene: "Rooftop infinity pool environment only: still or lightly rippling water, infinity edge with city or ocean horizon, smooth poolside stone or tile, sun loungers, warm sky.",
+      lighting: "Afternoon or golden hour pool light, caustic water reflections on subject and surroundings, strong warm rim from low sun, bright saturated exposure."
+    }),
+    preset("italian-street", "Italian street", "cobblestone, warm facades", {
+      scene: "Italian or Mediterranean street environment only: cobblestone pavement, warm ochre or terracotta building facades, wooden shutters, flower boxes, narrow perspective depth.",
+      lighting: "Warm afternoon direct sun with golden bounce off building walls, real shadow geometry on cobblestone, natural warm Mediterranean color temperature."
+    }),
+    preset("paris-cafe", "Paris café", "terrace, wicker chairs", {
+      scene: "Parisian café terrace environment only: wicker chairs, small round marble tables, espresso cups, striped awning, classic boulevard depth behind, Haussmann architecture suggestion.",
+      lighting: "Soft overcast or dappled outdoor Parisian light, neutral to slightly warm, soft shadows on wicker, airy and bright, accurate café color rendering."
+    }),
+    preset("santorini", "Santorini", "white walls, blue domes", {
+      scene: "Santorini Greek island environment only: whitewashed walls and stairs, iconic blue-domed church or accent, vivid Aegean sea and sky, volcanic rock, bougainvillea optional.",
+      lighting: "Bright Mediterranean sun, strong contrast, stark white-reflected fill light, vivid blues, warm skin against white architecture."
+    }),
+    preset("sunset-ocean", "Sunset ocean", "open beach, horizon glow", {
+      scene: "Open ocean beach at golden hour environment only: calm waterline, wide horizon, warm sky gradient, fine sand, minimal elements in frame.",
+      lighting: "Low sun on horizon as backlight, warm orange and gold sky reflection on water and sand, strong rim light on subject, long shadow toward camera."
+    }),
+    preset("autumn-park", "Autumn park", "golden leaves, warm tones", {
+      scene: "Autumn city park or leaf-covered pathway environment only: golden and orange fallen leaves, tree-lined path, wooden bench optional, no identifiable people.",
+      lighting: "Soft autumn filtered sunlight through tree canopy, warm golden tones, dappled patches, soft contrast, real outdoor autumn color temperature."
+    }),
+    preset("pink-wall", "Pink wall", "vibrant exterior, street pop", {
+      scene: "Vibrant pink or pastel-painted exterior wall environment only: smooth or lightly textured wall surface, ground pavement visible at bottom, real urban street scale.",
+      lighting: "Direct or slightly overcast outdoor light, pink-reflected color fill from wall onto skin and clothing, clean and graphic, natural street shadows."
+    }),
+    preset("flower-market", "Flower market", "botanical, bloom wall", {
+      scene: "Flower market or botanical garden environment only: abundant fresh flowers in rich varied colors, market stall shelving or bloom wall, green foliage throughout.",
+      lighting: "Soft overcast or diffused outdoor light, even color rendering across flowers, natural green-and-white balance, gentle fill shadows."
+    }),
+    preset("luxury-bathroom", "Marble bathroom", "hotel spa, vanity", {
+      scene: "Luxury hotel or spa bathroom environment only: marble surfaces and floors, vanity mirror, folded white towels, candles optional, glass shower or freestanding tub edge.",
+      lighting: "Warm vanity and recessed bathroom lighting, soft even illumination, marble surface reflections, real skin texture without harsh highlights."
+    }),
+    preset("hotel-bed", "Hotel bed", "white linen, crisp sheets", {
+      scene: "Luxury hotel bed environment only: crisp white or cream bedding, stacked pillows, neutral wall, soft morning or afternoon window light, no personal clutter.",
+      lighting: "Soft diffused window light, clean white balance, natural soft shadows across bedding, clean skin highlight, airy calm atmosphere."
+    }),
+    preset("poolside", "Poolside resort", "private pool, cabana", {
+      scene: "Private resort pool environment only: pool water edge with caustic pattern, smooth poolside tile or stone, sun lounger or draped towel, umbrella edge, warm resort atmosphere.",
+      lighting: "Bright afternoon pool sun, warm direct light, water-reflected shimmer on surroundings and skin, saturated summer exposure."
+    }),
+    preset("concert", "Concert", "stage lights, crowd energy", {
+      scene: "Live concert or festival stage environment only: colored stage lighting spill in warm and cool tones, crowd silhouettes softly blurred, smoke machine haze optional.",
+      lighting: "Mixed stage spotlights with warm and cool gel colors, haze diffusion, backlight from stage, subject naturally visible within venue light. No studio look."
+    }),
+    preset("yacht", "Yacht deck", "ocean luxury, boat life", {
+      scene: "Luxury yacht or boat deck environment only: open ocean horizon, white or teak deck, chrome railings, sea spray optional, afternoon or golden hour sky.",
+      lighting: "Open ocean sun, bright reflected light from white deck and water, strong warm rim from sun angle, natural nautical exposure with wind and sky."
+    }),
+    preset("desert-road", "Desert road", "highway, vast sky", {
+      scene: "Desert highway environment only: straight road vanishing point, cracked earth or red rock landscape, vast open sky with scattered clouds, warm dust atmosphere.",
+      lighting: "Golden hour or harsh midday desert sun, strong directional warm light, deep real shadows, heat haze in distance, dramatic sky."
+    }),
+    preset("christmas-home", "Holiday home", "cozy, fairy lights", {
+      scene: "Home holiday setting environment only: decorated Christmas tree with lights, warm wood floors or rug, fireplace optional, soft clutter of gifts, personal and lived-in.",
+      lighting: "Warm fairy light and practical ambient glow, bokeh string lights in background, candlelight color temperature, cozy skin tone, no flash."
+    }),
+    preset("home-kitchen", "Home kitchen", "aesthetic, cooking, daylight", {
+      scene: "Clean aesthetic home kitchen environment only: white or neutral countertop, fresh produce or coffee visible, quality appliances softly present, natural window light.",
+      lighting: "Bright natural window light, warm under-cabinet accent, clean color rendering, soft lifestyle quality, no harsh overhead."
+    })
   ],
   camera: [
     preset("phone-main", "Phone main lens", "social-photo sharpness", { camera: "Modern smartphone main camera look, vertical crop, natural wide-lens perspective without exaggeration, crisp subject detail, realistic computational HDR." }),
@@ -129,7 +257,13 @@ const presetLibraries = {
     preset("front-camera", "Front camera", "selfie perspective", { camera: "Smartphone front-camera selfie look, close-to-mid crop, slight wide-lens perspective, realistic face proportions without beautify filtering." }),
     preset("35mm", "35mm candid", "environmental frame", { camera: "35mm environmental portrait, eye-level framing, subject integrated with surroundings, natural perspective, mild background falloff." }),
     preset("50mm", "50mm portrait", "balanced realism", { camera: "50mm portrait lens feel, realistic perspective, controlled depth of field, clean subject separation, no artificial bokeh halos." }),
-    preset("compact-flash", "Compact flash", "night snapshot", { camera: "Compact digital camera or disposable flash look, vertical snapshot crop, crisp flash-lit foreground, slight grain, real-world lens imperfections." })
+    preset("compact-flash", "Compact flash", "night snapshot", { camera: "Compact digital camera or disposable flash look, vertical snapshot crop, crisp flash-lit foreground, slight grain, real-world lens imperfections." }),
+    preset("portrait-mode", "Portrait mode", "computational bokeh", { camera: "Smartphone portrait mode: subtle computational background blur with AI-edge separation, face-detection sharpening, clean soft bokeh, characteristic iPhone or Android processing artifacts on hair edges." }),
+    preset("aesthetic-wide", "Lifestyle wide", "28mm, scene-in", { camera: "Slightly wide-angle 28–32mm feel, environmental lifestyle framing, subject integrated with scene context, no fisheye distortion, editorial open composition." }),
+    preset("beauty-close", "Beauty close-up", "85mm, skin detail", { camera: "Tight beauty close-up, 85–105mm equivalent feel, face filling most of frame, eyelashes and skin texture tack-sharp, shallow depth of field, beauty editorial standard." }),
+    preset("video-still", "Video frame grab", "16:9, spontaneous", { camera: "Video frame capture aesthetic, 16:9 crop, slight softness from codec compression, natural motion-ready spontaneous quality, feels like a pulled frame not a photo." }),
+    preset("film-analog", "Analog film", "grain, warmth, imperfection", { camera: "35mm analog film scan: real grain structure, slight vignetting, gentle lens aberrations at edges, warm color shift, dust or scratch marks, authentic scanned film quality." }),
+    preset("disposable", "Disposable cam", "flash, lo-fi, fun", { camera: "Single-use disposable camera aesthetic: hard direct flash, flat depth of field, slightly blown highlights on foreground, underexposed background, characteristic grainy shadows, fun candid lo-fi quality." })
   ],
   pose: [
     preset("contrapposto", "Contrapposto", "natural weight shift", { body: "Natural contrapposto stance with weight on one leg, subtle hip shift, relaxed shoulders, grounded feet, and hands visible." }),
@@ -137,7 +271,21 @@ const presetLibraries = {
     preset("seated", "Seated casual", "chair or curb", { body: "Casual seated pose with natural spine curve, knees and hands placed plausibly, no hidden or fused fingers, realistic clothing folds." }),
     preset("leaning", "Leaning pose", "wall or railing", { body: "Subject lightly leaning on a wall or railing with relaxed shoulders, believable contact point, natural arm angle, and grounded posture." }),
     preset("over-shoulder", "Over shoulder", "turning glance", { body: "Over-the-shoulder pose with torso rotation, natural neck angle, visible body silhouette, and believable shoulder alignment." }),
-    preset("mirror-phone", "Phone-in-hand", "creator selfie", { body: "Casual phone-in-hand pose with visible grip, natural arm bend, realistic hand anatomy, and relaxed creator-post posture." })
+    preset("mirror-phone", "Phone-in-hand", "creator selfie", { body: "Casual phone-in-hand pose with visible grip, natural arm bend, realistic hand anatomy, and relaxed creator-post posture." }),
+    preset("sitting-steps", "Sitting on steps", "staircase, editorial, casual", { body: "Seated on steps or low surface, knees at natural angles, elbows resting on knees or arms loose, slight forward lean, one foot higher than the other, confident and relaxed." }),
+    preset("hair-flip", "Hair flip", "mid-motion, candid energy", { body: "Mid hair toss or flip, head tilted with hair catching movement, expression alive and natural, one hand just releasing hair or arms out, weight on back foot, genuine candid motion quality." }),
+    preset("candid-laugh", "Candid laugh", "genuine joy, eyes crinkled", { body: "Caught mid-laugh, eyes naturally crinkled, slight head tilt, hand optionally raised toward mouth or chest, relaxed shoulders, natural weight shift, completely unposed feel." }),
+    preset("looking-back", "Looking back", "walking away, glance", { body: "Walking away or standing with back to camera, rotating back to lens with a glance over the shoulder, torso three-quarters turned, weight naturally mid-step, confident relaxed posture." }),
+    preset("car-lean", "Leaning on car", "luxury car, confident", { body: "Subject leaning lightly against a car door or hood, one shoulder or hip making contact, arm resting on car surface, weight shifted onto vehicle, casual confident stance." }),
+    preset("bed-lounge", "Lounging on bed", "reclining, lifestyle", { body: "Reclined on bed, propped on elbows or lying with head on pillow, knees bent or legs extended, face naturally angled toward camera, relaxed and candid without stiffness." }),
+    preset("phone-scroll", "Phone scroll", "looking at phone, candid", { body: "Looking down at phone in natural relaxed grip, weight on one hip, slight head tilt, candid distracted posture, realistic hand anatomy wrapping the device." }),
+    preset("fixing-hair", "Fixing hair", "hands in hair, candid", { body: "One or both hands adjusting hair, head slightly tilted up or to the side, elbows raised naturally, soft unfocused expression as if checking in a mirror, relaxed and casual." }),
+    preset("coffee-hands", "Coffee hands", "cup in hand, cozy prop", { body: "Both hands wrapped around a warm coffee cup or one hand holding it casually, gaze at the cup or glancing to the side, slightly hunched shoulders suggesting warmth, intimate lifestyle quality." }),
+    preset("sunglasses-on", "Sunglasses on", "glamour, shades", { body: "Placing sunglasses on or posing with them on, slight chin tilt for glamour, direct or side gaze behind lenses, relaxed shoulder posture, effortlessly confident." }),
+    preset("twirl", "Twirl", "spinning dress, motion", { body: "Mid-twirl spin, skirt or dress billowing outward with rotational motion, arms slightly lifted, joyful or carefree expression, feet on toes, natural motion blur on fabric edges." }),
+    preset("crouching", "Street crouch", "editorial, low pose", { body: "Low editorial crouch on heels, elbows on knees or arms relaxed, direct camera gaze or looking to side, feet flat or on toes, intentional and stylish." }),
+    preset("sitting-floor", "Floor pose", "ground level, relaxed", { body: "Sitting on the floor or ground, legs crossed or extended or tucked to one side, hands resting naturally on lap or ground, relaxed posture, candid lifestyle quality." }),
+    preset("arms-up", "Arms overhead", "freedom, movement, dance", { body: "Arms raised overhead or to the sides with natural movement energy, head tilted back or to the side with joyful or carefree expression, body light on toes, genuine motion." })
   ],
   lighting: [
     preset("window", "Window light", "soft side light", { lighting: "Large soft window light from one side, natural shadow falloff, preserved skin texture, realistic room bounce and white balance." }),
@@ -145,7 +293,17 @@ const presetLibraries = {
     preset("overcast", "Overcast", "soft outdoor", { lighting: "Soft overcast outdoor light, broad shadowless illumination, muted highlights, realistic natural color and background depth." }),
     preset("direct-flash", "Direct flash", "night-out realism", { lighting: "On-camera direct flash with crisp foreground, realistic hard shadow, mild grain, natural specular highlights, no waxy skin." }),
     preset("neon", "Neon practicals", "night color", { lighting: "Mixed neon and practical ambient light, believable color cast, realistic low-light grain, face still readable, no synthetic glow." }),
-    preset("bathroom", "Bathroom light", "mirror practicals", { lighting: "Bathroom overhead and mirror light, realistic skin texture, slight phone HDR, believable tile and glass reflections." })
+    preset("bathroom", "Bathroom light", "mirror practicals", { lighting: "Bathroom overhead and mirror light, realistic skin texture, slight phone HDR, believable tile and glass reflections." }),
+    preset("ring-light", "Ring light", "even face, circular catch", { lighting: "Direct ring light illumination with characteristic circular catchlight in eyes, even shadow-free facial lighting, smooth skin with natural texture preserved, warm or neutral color temperature typical of GRWM setup." }),
+    preset("pool-caustics", "Pool caustics", "water shimmer, bright", { lighting: "Bright pool caustic light reflections, rippling light patterns on skin and surrounding surfaces, warm sun-over-water exposure, high-key bright pool day atmosphere with saturated color." }),
+    preset("blue-hour", "Blue hour", "outdoor dusk, cool fill", { lighting: "Blue hour outdoor dusk light, deep blue sky as ambient fill, warm practical or streetlight as key, low contrast on skin, natural cool atmospheric tone, transitional day-to-night quality." }),
+    preset("harsh-midday", "Midday sun", "hard fashion, editorial", { lighting: "Hard direct midday sun overhead, strong shadows under nose and chin, bleached highlights on shoulders and crown, high contrast, editorial fashion heat, sunlit outdoor energy." }),
+    preset("fairy-lights", "Fairy lights", "warm bokeh, romantic", { lighting: "Background string lights as warm bokeh orbs, subject lit by a separate warm practical source, magical bokeh depth separation, warm white balance, cozy intimate atmosphere." }),
+    preset("bar-club", "Bar / club", "mixed practicals, night", { lighting: "Night bar or club ambience: warm practical fixtures, neon accent or colored gel spill, slight atmospheric haze, skin visible but moodily lit, night photography with real contrast." }),
+    preset("bedroom-morning", "Bedroom morning", "diffused, waking-up soft", { lighting: "Soft diffused morning light filtering through curtains or blinds, gentle shadows across bedding and face, warm neutral white balance, no artificial light contamination, intimate and quiet." }),
+    preset("sunset-rim", "Sunset rim", "backlit golden halo", { lighting: "Strong low-sun rim or backlight creating a golden halo on hair and shoulders, face in gentle shadow with sky bounce fill, warm over-exposed background, dramatic silhouette quality." }),
+    preset("dappled-shade", "Dappled shade", "tree canopy, organic", { lighting: "Natural dappled light through tree leaves or lattice, organic shadow pattern on subject and background, warm filtered sunlight, green ambient bounce, natural outdoor softness." }),
+    preset("candle-glow", "Candle glow", "amber warmth, intimate", { lighting: "Candlelight as key source, extremely warm amber glow with natural uneven flickering quality, deep shadows on far side of face, visible grain from low light, intimate restaurant or home atmosphere." })
   ],
   realism: [
     preset("no-ai-skin", "Natural skin", "pores and texture", { realism: "Emphasize normal skin texture: pores, fine lines, tiny blemishes, under-eye texture, body texture, facial asymmetry. No poreless or plastic skin." }),
@@ -154,6 +312,120 @@ const presetLibraries = {
     preset("hands-lock", "Hands lock", "anatomy guard", { negative: "Avoid extra fingers, fused fingers, missing knuckles, distorted nails, melted jewelry, broken wrists, impossible hand grips, and hidden anatomy shortcuts." }),
     preset("background-real", "Real background", "not AI-clean", { realism: "Background should have ordinary imperfections, real edges, subtle clutter if appropriate, correct reflections, contact shadows, and believable depth." }),
     preset("anti-retouch", "Anti-retouch", "no airbrush", { negative: "No airbrushed face, no waxy highlights, no face reshaping, no plastic body texture, no AI glamour filter, no overly clean studio-perfect finish." })
+  ],
+  vibe: [
+    preset("clean-girl", "Clean girl", "no-makeup makeup, dewy", {
+      realism: "Clean girl aesthetic: dewy natural skin with visible pores, no-makeup makeup look, no smoothing or poreless filter, real texture on skin and lips, effortlessly understated.",
+      camera: "Clean natural light, close-to-medium framing, simple uncluttered composition, soft neutral tones throughout.",
+      lighting: "Bright diffused natural or window light, airy clean shadows, dewy skin highlights, bright whites, fresh and alive."
+    }),
+    preset("moody-edit", "Moody editorial", "dark, high contrast, fashion", {
+      lighting: "Low-key moody lighting, deep shadows, single directional key light, high contrast, underexposed background, editorial fashion atmosphere.",
+      camera: "35mm or 50mm editorial framing, intentional strong composition, slight shadow presence, cinematic vertical crop.",
+      realism: "High-fashion editorial quality: sharp detail on subject against intentional deep shadow, textured fabric and real skin but controlled aesthetic. No flat or even lighting."
+    }),
+    preset("warm-aesthetic", "Warm aesthetic", "golden tones, cozy, honey", {
+      lighting: "Warm golden tone throughout, soft natural or practical light, warm amber-touched skin rendering, honey color grade, cozy and inviting quality.",
+      realism: "Warm Instagram aesthetic: slight soft grain, warm color tone overall, real skin texture with golden glow, authentic feel of a warm late afternoon."
+    }),
+    preset("y2k", "Y2K", "2000s nostalgia, glossy, digital", {
+      camera: "Early 2000s digital compact camera aesthetic: slight overexposure, blown highlights, warm digital color processing, characteristic era lens look.",
+      lighting: "Harsh direct flash or overexposed bright light, characteristic early 2000s blown-out skin, high-key glossy finish.",
+      realism: "Y2K photo quality: slight digital compression, era-specific color rendering, glossy magazine meets early digicam, characteristic noise pattern."
+    }),
+    preset("old-money", "Old money", "quiet luxury, tasteful, restrained", {
+      realism: "Quiet luxury aesthetic: understated and tasteful, real fabric textures clearly visible, no flashy or branded elements, sophisticated restraint in every detail, expensive without trying.",
+      camera: "Classic portrait framing, 50mm equivalent, clean composition, nothing excessive or dramatic, timeless elegance.",
+      lighting: "Soft natural or classic studio light, even and flattering, no dramatic effects or trendy color grading, clean and timeless."
+    }),
+    preset("it-girl", "It-girl", "effortlessly cool, trendy, candid", {
+      body: "Effortlessly cool pose that looks completely unstudied, weight natural, gaze confident or momentarily distracted, feels like the camera found her rather than she posed.",
+      camera: "Editorial social portrait, 35mm feel, candid timing, subject caught mid-moment, slight asymmetry in framing.",
+      lighting: "Natural and flattering without being obvious about it, available light, organic and real."
+    }),
+    preset("hot-girl-summer", "Hot girl summer", "sun-kissed, bright, confident", {
+      lighting: "Bright sunny warm outdoor light, sun-kissed skin with real warmth, vivid clear sky, high energy, strong summer sun.",
+      realism: "Sun-drenched Instagram quality: natural sun-kissed skin texture, real outdoor bright exposure, alive and vibrant.",
+      body: "Confident open stance, full energy, summer attitude, ownership of the moment, nothing timid."
+    }),
+    preset("dark-academia", "Dark academia", "moody library, autumn, books", {
+      lighting: "Low warm library or indoor practical light, amber tones, deep atmospheric shadows, intellectual moody atmosphere.",
+      camera: "35mm or 50mm, warm desaturated color grade, autumnal rich tones, literary editorial composition.",
+      realism: "Dark academia aesthetic: real fabric texture on scholarly or layered clothing, natural skin, muted rich tones, genuine atmosphere."
+    }),
+    preset("soft-glam", "Soft glam", "natural glam, glow, feminine", {
+      lighting: "Soft flattering even light, subtle glow on skin, no harsh shadows, radiant and feminine quality, looks like the best natural light.",
+      realism: "Natural glam: real dewy skin with no over-retouching, genuine radiance from lighting not post-processing, soft and luminous.",
+      camera: "Flattering 50–85mm focal length, soft shallow depth of field, glam portrait framing."
+    }),
+    preset("baddie", "Baddie", "bold, attitude, confident", {
+      body: "High-confidence pose, direct unwavering camera gaze, bold and intentional stance, nothing shy or soft about it.",
+      lighting: "Bold direct light, defined shadows, high contrast, sharp and graphic, no soft romantic quality.",
+      camera: "Eye level or low angle, power framing, sharp vertical social crop."
+    }),
+    preset("coastal-girl", "Coastal girl", "beach, ocean air, casual ease", {
+      scene: "Beach, ocean shoreline, or coastal environment only: sea, sand, natural coastal elements, open horizon.",
+      lighting: "Bright coastal light, ocean and sand reflections, sun in hair, carefree and alive.",
+      realism: "Coastal lifestyle aesthetic: real salt-air quality, natural sun-touched skin, genuine outdoor feeling, no studio perfection."
+    }),
+    preset("boho", "Boho", "earthy, free spirit, textures", {
+      lighting: "Warm golden natural light, earthy warm tones, organic dappled quality, sun-flare optional at edges.",
+      realism: "Bohemian aesthetic: rich fabric textures, natural earthy colors, warm and soulful quality, nothing synthetic.",
+      camera: "35mm film-like feel, warm color tone, organic natural composition, imperfect and alive."
+    }),
+    preset("streetwear-edit", "Streetwear", "urban, graphic, editorial", {
+      scene: "Urban street, concrete wall, or architectural environment only: city context, graphic background elements.",
+      camera: "Street editorial framing, 35mm, architectural lines used compositionally, urban gritty energy.",
+      lighting: "Available urban light: daylight mixed with urban practicals, authentic street photography exposure, real city atmosphere."
+    }),
+    preset("coquette", "Coquette", "flirty, feminine, pink", {
+      realism: "Coquette aesthetic: delicate textures clearly visible, soft feminine quality throughout, gentle and flirty atmosphere, nothing hard or aggressive.",
+      lighting: "Soft pink-tinged or warm feminine light, gentle even glow, romantic diffused quality, dreamy softness.",
+      camera: "Close-to-medium intimate crop, slightly tender framing, feminine and gentle composition."
+    }),
+    preset("quiet-luxury", "Quiet luxury", "understated, premium, no logos", {
+      realism: "Quiet luxury: quality evident in texture and drape alone, no visible logos, fabric behavior and tailoring speak for themselves, sophisticated and timeless over trendy.",
+      lighting: "Perfect even natural or soft studio light, nothing overdone or dramatic, tasteful and refined.",
+      outfit: "Impeccably tailored or crafted garments with visible fabric quality, accurate drape and weight, no branding visible, accessories with quality hardware, clean and restrained."
+    })
+  ],
+  outfit: [
+    preset("bikini-resort", "Bikini / swimwear", "beach, pool, resort", {
+      outfit: "Form-fitting bikini or one-piece swimwear: accurate fabric stretch, tie or clasp hardware details, wet or dry texture as appropriate to scene, realistic fit with no impossible coverage, accurate color and pattern."
+    }),
+    preset("athleisure", "Athleisure", "matching set, activewear", {
+      outfit: "Matched athletic set or standalone workout outfit: form-fitting sports bra and leggings or biker shorts, compression fabric texture with visible weave, moisture-wicking appearance, brand detailing only if present in outfit reference."
+    }),
+    preset("night-out-mini", "Night out", "mini dress, heels, going out", {
+      outfit: "Going-out mini dress or bodycon: accurate fabric sheen if satin or sequins, realistic hem and neckline, stiletto heels with accurate toe box and heel stem, clutch or small bag if shown in reference."
+    }),
+    preset("casual-cool", "Casual cool", "jeans, crop top, sneakers", {
+      outfit: "Casual everyday: high-waisted jeans with accurate denim texture and seams, slight wear visible, cropped top with natural fabric weight, white sneakers with accurate sole profile and laces, minimal accessories."
+    }),
+    preset("designer-fit", "Designer look", "luxury, editorial, tailored", {
+      outfit: "Luxury brand outfit: impeccable tailoring with fabric drape and weight visible, quality seams and construction, accessories with accurate hardware, nothing generic or mass-market. No logo guessing — only replicate what is visible in reference."
+    }),
+    preset("sundress", "Sundress", "flowy, feminine, summer", {
+      outfit: "Flowing summer dress: light fabric with natural movement and drape in motion, accurate hem length, print or solid color with real textile behavior including subtle creasing, sandals or mules with accurate strap detail."
+    }),
+    preset("bodycon", "Bodycon", "fitted, elegant, curves", {
+      outfit: "Form-fitting bodycon or sculpted dress: fabric compression accurately rendered against body, realistic stretch and visible seam lines, accurate neckline, heels with natural foot weight distribution."
+    }),
+    preset("streetwear-fit", "Streetwear", "oversized, layers, drip", {
+      outfit: "Streetwear outfit: oversized silhouette with accurate fabric weight, hoodie or jacket with realistic drape, cargo or relaxed trouser fit, chunky sneakers with accurate sole unit and colorway, layering visible and plausible."
+    }),
+    preset("resort-white", "Resort white", "linen, clean, elegant", {
+      outfit: "White or neutral linen or cotton resort wear: accurate natural fabric texture with wrinkle and weight, loose elegant fit, sandals with strap detail, minimal gold jewelry if reference shows, elevated and clean."
+    }),
+    preset("cozy-fit", "Cozy fit", "oversized, soft, comfort", {
+      outfit: "Cozy oversized pieces: chunky knit sweater with real yarn texture, baggy sweatpants or biker shorts, thick socks, accurate fabric softness and drape, lived-in comfort without looking sloppy."
+    }),
+    preset("tennis-prep", "Tennis prep", "skirt, sporty, preppy", {
+      outfit: "Preppy sporty look: tennis skirt with accurate knife or box pleat detail and fabric, fitted polo or ribbed top, low white leather sneakers, hair pulled back or visor, clean and detail-accurate."
+    }),
+    preset("monochrome", "Monochrome", "one color, striking, clean", {
+      outfit: "Head-to-toe single color outfit: accurate tonal variation between different garment pieces and materials, coordinated without being identical, shoes and bag in same color family, striking silhouette with subtle texture contrast."
+    })
   ]
 };
 
